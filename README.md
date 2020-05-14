@@ -239,7 +239,7 @@ $app->addCrontab('* * * * * *', function(){
 $app->run();
 ```
 
-### Use Hyperf Component.
+### Use Hyperf Component
 
 ```php
 <?php

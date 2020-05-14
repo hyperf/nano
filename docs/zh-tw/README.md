@@ -238,7 +238,7 @@ $app->addCrontab('* * * * * *', function(){
 $app->run();
 ```
 
-### 使用更多 Hyperf 元件.
+### 使用更多 Hyperf 元件
 
 ```php
 <?php
