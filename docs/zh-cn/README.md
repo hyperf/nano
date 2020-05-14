@@ -19,7 +19,7 @@ Nano 是一款零配置、无骨架、极小化的 Hyperf 发行版，通过 Nan
 ## 安装
 
 ```bash
-composer install hyperf/nano
+composer require hyperf/nano
 ```
 
 ## 快速开始
