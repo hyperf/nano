@@ -1,6 +1,20 @@
 # Nano, by Hyperf
 
-通过 `hyperf/nano` 可以在无骨架、零配置的情况下快速搭建 Hyperf 应用。
+Nano 是一款零配置、无骨架、极小化的 Hyperf 发行版，通过 Nano 可以让您仅仅通过 1 个 PHP 文件即可快速搭建一个 Hyperf 应用。   
+
+## 设计理念
+
+`Svelte` 的作者提出过一个论断：“框架不是用来组织代码的，是用来组织思路的”。而 Nano 最突出的一个优点就是不打断你的思路。Nano 非常擅长于自我声明，几乎不需要了解框架细节，只需要简单读一读代码，就能知道代码的目的。通过极简的代码声明，完成一个完整的 Hyperf 应用。
+
+## 特性
+
+* 无骨架
+* 零配置
+* 快速启动
+* 闭包风格
+* 支持注解外的全部 Hyperf 功能
+* 兼容全部 Hyperf 组件
+* Phar 友好
 
 ## 安装
 
@@ -10,14 +24,15 @@ composer install hyperf/nano
 
 ## 快速开始
 
+创建一个 PHP 文件，如 index.php 如下：
+
 ```php
 <?php
-// index.php
 use Hyperf\Nano\Factory\AppFactory;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-$app = AppFactory::create('0.0.0.0', 9051);
+$app = AppFactory::create();
 
 $app->get('/', function () {
 
@@ -34,7 +49,7 @@ $app->get('/', function () {
 $app->run();
 ```
 
-启动：
+启动服务：
 
 ```bash
 php index.php start
@@ -42,21 +57,11 @@ php index.php start
 
 简洁如此。
 
-## 特性
-
-* 无骨架
-* 零配置
-* 快速启动
-* 闭包风格
-* 支持注解外的全部 Hyperf 功能
-* 兼容全部 Hyperf 组件
-* Phar 友好
-
 ## 更多示例
 
 ### 路由
 
-$app 集成了 Hyperf 路由器的所有方法。
+`$app` 集成了 Hyperf 路由器的所有方法。
 
 ```php
 <?php
@@ -195,6 +200,7 @@ $app->run();
 ```
 
 ### 自定义进程
+
 ```php
 <?php
 use Hyperf\Contract\StdoutLoggerInterface;
@@ -232,7 +238,7 @@ $app->addCrontab('* * * * * *', function(){
 $app->run();
 ```
 
-### 使用 Hyperf 组件.
+### 使用更多 Hyperf 组件.
 
 ```php
 <?php
