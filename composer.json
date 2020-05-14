@@ -1,10 +1,11 @@
 {
     "name": "hyperf/nano",
-    "type": "library",
+    "type": "project",
     "license": "MIT",
     "keywords": [
         "php",
-        "hyperf"
+        "hyperf",
+        "nano"
     ],
     "description": "Scale Hyperf application down to a single file",
     "autoload": {
@@ -29,7 +30,8 @@
         "hyperf/process": "^1.1",
         "hyperf/testing": "1.1.*",
         "phpstan/phpstan": "^0.10.5",
-        "swoft/swoole-ide-helper": "dev-master"
+        "symfony/finder": "^4.1",
+        "swoole/ide-helper": "dev-master"
     },
     "suggest": {
         "hyperf/crontab": "Required to use closure crontab",
