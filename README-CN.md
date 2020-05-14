@@ -1,4 +1,4 @@
-English | [中文](./README-CN.md)
+[English](./README.md) | 中文
 
 <p align="left">
   <a href="https://travis-ci.org/hyperf/nano"><img src="https://travis-ci.org/hyperf/nano.svg?branch=master" alt="Build Status"></a>
@@ -10,25 +10,31 @@ English | [中文](./README-CN.md)
 
 # Nano, by Hyperf
 
-Nano is a zero-config, no skeleton, minimal Hyperf distribution that allows you to quickly build a Hyperf application with just a single PHP file.
+Nano 是一款零配置、无骨架、极小化的 Hyperf 发行版，通过 Nano 可以让您仅仅通过 1 个 PHP 文件即可快速搭建一个 Hyperf 应用。   
 
-## Purpose
+## 设计理念
 
-The author of `Svelte` has said that "Frameworks are not tools for organizing your code, they are tools for organizing your mind". The biggest advantages of Nano is that it doesn't interrupt your mind of thought. The Nano is good at self-declaration that you have no need to know the details of the framework. You can read the code fastly and know what it's for. Write a complete Hyperf application with minimal code declarations.
+`Svelte` 的作者提出过一个论断：“框架不是用来组织代码的，是用来组织思路的”。而 Nano 最突出的一个优点就是不打断你的思路。Nano 非常擅长于自我声明，几乎不需要了解框架细节，只需要简单读一读代码，就能知道代码的目的。通过极简的代码声明，完成一个完整的 Hyperf 应用。
 
+## 特性
 
-## Feature
+* 无骨架
+* 零配置
+* 快速启动
+* 闭包风格
+* 支持注解外的全部 Hyperf 功能
+* 兼容全部 Hyperf 组件
+* Phar 友好
 
-* No skeleton.
-* Fast startup.
-* Zero config.
-* Closure style.
-* Support all Hyperf features except annotations.
-* Compatible with all Hyperf components.
+## 安装
 
-## Example
+```bash
+composer install hyperf/nano
+```
 
-Create a single PHP file, like `index.php`: 
+## 快速开始
+
+创建一个 PHP 文件，如 index.php 如下：
 
 ```php
 <?php
@@ -36,7 +42,7 @@ use Hyperf\Nano\Factory\AppFactory;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-$app = AppFactory::create('0.0.0.0', 9051);
+$app = AppFactory::create();
 
 $app->get('/', function () {
 
@@ -53,19 +59,19 @@ $app->get('/', function () {
 $app->run();
 ```
 
-Run the server:
+启动服务：
 
 ```bash
 php index.php start
 ```
 
-That's all you need.
+简洁如此。
 
-## More Examples
+## 更多示例
 
-### Routing
+### 路由
 
-`$app` inherits all methods from hyperf router.
+`$app` 集成了 Hyperf 路由器的所有方法。
 
 ```php
 <?php
@@ -87,7 +93,7 @@ $app->addGroup('/nano', function () use ($app) {
 $app->run();
 ```
 
-### DI Container 
+### DI 容器
 ```php
 <?php
 use Hyperf\Nano\ContainerProxy;
@@ -112,9 +118,9 @@ $app->get('/', function () {
 
 $app->run();
 ```
-> As a convention, $this is bind to ContainerProxy in all closures managed by nano, including middleware, exception handler and more.
+> 所有 $app 管理的闭包回调中，$this 都被绑定到了 `Hyperf\Nano\ContainerProxy` 上。
 
-### Middleware
+### 中间件
 ```php
 <?php
 use Hyperf\Nano\Factory\AppFactory;
@@ -135,9 +141,9 @@ $app->addMiddleware(function ($request, $handler) {
 $app->run();
 ```
 
-> In addition to closure, all $app->addXXX() methods also accept class name as argument. You can pass any corresponding hyperf classes.
+> 除了闭包之外，所有 $app->addXXX() 方法还接受类名作为参数。可以传入对应的 Hyperf 类。
 
-### ExceptionHandler
+### 异常处理
 
 ```php
 <?php
@@ -160,7 +166,7 @@ $app->addExceptionHandler(function ($throwable, $response) {
 $app->run();
 ```
 
-### Custom Command
+### 命令行
 
 ```php
 <?php
@@ -178,12 +184,14 @@ $app->addCommand('echo', function(){
 $app->run();
 ```
 
-To run this command, execute
+执行
+
 ```bash
 php index.php echo
 ```
 
-### Event Listener
+### 事件监听
+
 ```php
 <?php
 use Hyperf\Contract\StdoutLoggerInterface;
@@ -201,7 +209,8 @@ $app->addListener(BootApplication::class, function($event){
 $app->run();
 ```
 
-### Custom Process
+### 自定义进程
+
 ```php
 <?php
 use Hyperf\Contract\StdoutLoggerInterface;
@@ -221,7 +230,7 @@ $app->addProcess(function(){
 $app->run();
 ```
 
-### Crontab
+### 定时任务
 
 ```php
 <?php
@@ -239,7 +248,7 @@ $app->addCrontab('* * * * * *', function(){
 $app->run();
 ```
 
-### Use Hyperf Component.
+### 使用更多 Hyperf 组件.
 
 ```php
 <?php
