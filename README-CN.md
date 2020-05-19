@@ -233,18 +233,91 @@ $app->run();
 
 ```php
 <?php
-use Hyperf\Contract\StdoutLoggerInterface;
+
 use Hyperf\Nano\Factory\AppFactory;
+use Hyperf\Amqp;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-$app = AppFactory::create();
+class Message extends Amqp\Message\ProducerMessage
+{
+    protected $exchange = 'hyperf';
 
-$app->addCrontab('* * * * * *', function(){
-    $this->get(StdoutLoggerInterface::class)->info('execute every second!');
+    protected $routingKey = 'hyperf';
+
+    public function __construct($data)
+    {
+        $this->payload = $data;
+    }
+}
+
+$app = AppFactory::createBase();
+$container = $app->getContainer();
+
+$app->config([
+    'amqp' => [
+        'default' => [
+            'host' => 'localhost',
+            'port' => 5672,
+            'user' => 'guest',
+            'password' => 'guest',
+            'vhost' => '/',
+            'concurrent' => [
+                'limit' => 1,
+            ],
+            'pool' => [
+                'min_connections' => 1,
+                'max_connections' => 10,
+                'connect_timeout' => 10.0,
+                'wait_timeout' => 3.0,
+                'heartbeat' => -1,
+            ],
+            'params' => [
+                'insist' => false,
+                'login_method' => 'AMQPLAIN',
+                'login_response' => null,
+                'locale' => 'en_US',
+                'connection_timeout' => 3.0,
+                'read_write_timeout' => 6.0,
+                'context' => null,
+                'keepalive' => false,
+                'heartbeat' => 3,
+                'close_on_destruct' => true,
+            ],
+        ],
+    ],
+]);
+
+$app->addProcess(function () use ($container) {
+    $message = new class extends Amqp\Message\ConsumerMessage {
+        protected $exchange = 'hyperf';
+
+        protected $queue = 'hyperf';
+
+        protected $routingKey = 'hyperf';
+
+        public function consumeMessage($data, \PhpAmqpLib\Message\AMQPMessage $message): string
+        {
+            var_dump($data);
+            return Amqp\Result::ACK;
+        }
+    };
+    $consumer = $container->get(Amqp\Consumer::class);
+    $consumer->consume($message);
+});
+
+$app->get('/', function () {
+    /** @var Amqp\Producer $producer */
+    $producer = $this->get(Amqp\Producer::class);
+    $producer->produce(new Message(['id' => $id = uniqid()]));
+    return $this->response->json([
+        'id' => $id,
+        'message' => 'Hello World.'
+    ]);
 });
 
 $app->run();
+
 ```
 
 ### AMQP
