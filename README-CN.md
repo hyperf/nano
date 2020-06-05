@@ -330,21 +330,6 @@ use Hyperf\Amqp;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-class DemoConsumer extends Amqp\Message\ConsumerMessage
-{
-    protected $exchange = 'hyperf';
-
-    protected $queue = 'hyperf';
-
-    protected $routingKey = 'hyperf';
-
-    public function consumeMessage($data, \PhpAmqpLib\Message\AMQPMessage $message): string
-    {
-        var_dump($data);
-        return Amqp\Result::ACK;
-    }
-}
-
 class Message extends Amqp\Message\ProducerMessage
 {
     protected $exchange = 'hyperf';
@@ -394,9 +379,21 @@ $app->config([
     ],
 ]);
 
-$app->addProcess(function () use ($container) {
-    $message = new DemoConsumer();
-    $consumer = $container->get(Amqp\Consumer::class);
+$app->addProcess(function () {
+    $message = new class extends Amqp\Message\ConsumerMessage {
+        protected $exchange = 'hyperf';
+
+        protected $queue = 'hyperf';
+
+        protected $routingKey = 'hyperf';
+
+        public function consumeMessage($data, \PhpAmqpLib\Message\AMQPMessage $message): string
+        {
+            var_dump($data);
+            return Amqp\Result::ACK;
+        }
+    };
+    $consumer = $this->get(Amqp\Consumer::class);
     $consumer->consume($message);
 });
 

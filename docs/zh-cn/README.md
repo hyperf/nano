@@ -297,7 +297,7 @@ $app->config([
     ],
 ]);
 
-$app->addProcess(function () use ($container) {
+$app->addProcess(function () {
     $message = new class extends Amqp\Message\ConsumerMessage {
         protected $exchange = 'hyperf';
 
@@ -311,7 +311,7 @@ $app->addProcess(function () use ($container) {
             return Amqp\Result::ACK;
         }
     };
-    $consumer = $container->get(Amqp\Consumer::class);
+    $consumer = $this->get(Amqp\Consumer::class);
     $consumer->consume($message);
 });
 
