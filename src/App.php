@@ -88,10 +88,10 @@ class App
     /**
      * Config the application using arrays.
      */
-    public function config(array $configs)
+    public function config(array $configs, int $flag = Constant::CONFIG_MERGE)
     {
         foreach ($configs as $key => $value) {
-            $this->addConfig($key, $value);
+            $this->addConfig($key, $value, $flag);
         }
     }
 
@@ -306,7 +306,7 @@ class App
         $this->config->set($key, $config);
     }
 
-    private function addConfig(string $key, $configValues)
+    private function addConfig(string $key, $configValues, $flag)
     {
         $config = $this->config->get($key);
 
@@ -315,7 +315,12 @@ class App
             return;
         }
 
-        $this->config->set($key, array_merge_recursive($config, $configValues));
+        if ($flag === Constant::CONFIG_MERGE) {
+            $this->config->set($key, array_merge_recursive($config, $configValues));
+        } else {
+            $this->config->set($key, array_merge($config, $configValues));
+        }
+
     }
 
     private function convertClosureToMiddleware(array &$middlewares)
