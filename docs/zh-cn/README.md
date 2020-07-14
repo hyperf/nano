@@ -356,3 +356,27 @@ $app->get('/', function(){
 
 $app->run();
 ```
+
+```php
+<?php
+
+use Hyperf\Nano\Factory\AppFactory;
+
+require_once __DIR__ . '/vendor/autoload.php';
+
+$app = AppFactory::create();
+
+$app->config([
+    'cache.default' => [
+        'driver' => Hyperf\Cache\Driver\RedisDriver::class,
+        'packer' => Hyperf\Utils\Packer\PhpSerializerPacker::class,
+        'prefix' => 'c:',
+    ],
+]);
+
+$app->get('/{key}', function(Psr\SimpleCache\CacheInterface $cache, $key){
+	return $cache->get($key, 'default');
+});
+
+$app->run();
+```
