@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 /**
- * This file is part of Hyperf.
+ * This file is part of Hyperf Nano.
  *
  * @link     https://www.hyperf.io
- * @document https://doc.hyperf.io
+ * @document https://nano.hyperf.wiki
  * @contact  group@hyperf.io
- * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ * @license  https://github.com/hyperf/nano/blob/master/LICENSE
  */
 namespace Hyperf\Nano;
 
@@ -16,7 +16,6 @@ use Hyperf\DB\DB;
 use Hyperf\Framework\Event\BootApplication;
 use Hyperf\HttpMessage\Stream\SwooleStream;
 use Hyperf\Nano\Factory\AppFactory;
-use Psr\Log\LogLevel;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -97,7 +96,7 @@ $app->config([
         'database' => env('DB_DATABASE', 'hyperf'),
         'username' => env('DB_USERNAME', 'root'),
         'password' => env('DB_PASSWORD', ''),
-    ]
+    ],
 ]);
 
 $app->get('/db', function () {
