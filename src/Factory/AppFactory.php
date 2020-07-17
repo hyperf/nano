@@ -19,6 +19,7 @@ use Hyperf\Contract\StdoutLoggerInterface;
 use Hyperf\Di\Container;
 use Hyperf\Di\Definition\DefinitionSource;
 use Hyperf\Di\Definition\ScanConfig;
+use Hyperf\HttpServer\Exception\Handler\HttpExceptionHandler;
 use Hyperf\HttpServer\Router\DispatcherFactory;
 use Hyperf\Nano\App;
 use Hyperf\Nano\BoundInterface;
@@ -40,7 +41,7 @@ class AppFactory
             'server.servers.0.host' => $host,
             'server.servers.0.port' => $port,
         ]);
-        $app->addExceptionHandler(\Hyperf\HttpServer\Exception\Handler\HttpExceptionHandler::class);
+        $app->addExceptionHandler(HttpExceptionHandler::class);
         return $app;
     }
 
@@ -55,7 +56,7 @@ class AppFactory
             'server.servers.0.host' => $host,
             'server.servers.0.port' => $port,
         ]);
-        $app->addExceptionHandler(\Hyperf\HttpServer\Exception\Handler\HttpExceptionHandler::class);
+        $app->addExceptionHandler(HttpExceptionHandler::class);
         return $app;
     }
 
