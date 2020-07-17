@@ -267,7 +267,7 @@ $app->get('/', function(){
 $app->run();
 ```
 
-### 缓存
+#### 缓存
 ```php
 <?php
 
