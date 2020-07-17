@@ -320,7 +320,6 @@ class App
         } else {
             $this->config->set($key, array_merge($config, $configValues));
         }
-
     }
 
     private function convertClosureToMiddleware(array &$middlewares)

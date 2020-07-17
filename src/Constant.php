@@ -3,7 +3,6 @@
 
 namespace Hyperf\Nano;
 
-
 class Constant
 {
     /**
