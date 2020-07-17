@@ -241,6 +241,7 @@ $app->run();
 ### 使用更多 Hyperf 组件
 
 #### 数据库
+
 ```php
 <?php
 use Hyperf\DB\DB;
@@ -268,6 +269,7 @@ $app->run();
 ```
 
 #### 缓存
+
 ```php
 <?php
 
