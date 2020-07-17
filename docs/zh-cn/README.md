@@ -238,6 +238,60 @@ $app->addCrontab('* * * * * *', function(){
 $app->run();
 ```
 
+### 使用更多 Hyperf 组件
+
+#### 数据库
+```php
+<?php
+use Hyperf\DB\DB;
+use Hyperf\Nano\Factory\AppFactory;
+
+require_once __DIR__ . '/vendor/autoload.php';
+
+$app = AppFactory::create();
+
+$app->config([
+    'db.default' => [
+        'host' => env('DB_HOST', 'localhost'),
+        'port' => env('DB_PORT', 3306),
+        'database' => env('DB_DATABASE', 'hyperf'),
+        'username' => env('DB_USERNAME', 'root'),
+        'password' => env('DB_PASSWORD', ''),
+    ]
+]);
+
+$app->get('/', function(){
+    return DB::query('SELECT * FROM `user` WHERE gender = ?;', [1]);
+});
+
+$app->run();
+```
+
+### 缓存
+```php
+<?php
+
+use Hyperf\Nano\Factory\AppFactory;
+
+require_once __DIR__ . '/vendor/autoload.php';
+
+$app = AppFactory::create();
+
+$app->config([
+    'cache.default' => [
+        'driver' => Hyperf\Cache\Driver\RedisDriver::class,
+        'packer' => Hyperf\Utils\Packer\PhpSerializerPacker::class,
+        'prefix' => 'c:',
+    ],
+]);
+
+$app->get('/{key}', function(Psr\SimpleCache\CacheInterface $cache, $key){
+	return $cache->get($key, 'default');
+});
+
+$app->run();
+```
+
 ### AMQP
 
 ```php
@@ -326,56 +380,35 @@ $app->get('/', function () {
 });
 
 $app->run();
-
 ```
 
-### 使用更多 Hyperf 组件
+#### 视图
 
 ```php
 <?php
-use Hyperf\DB\DB;
+
 use Hyperf\Nano\Factory\AppFactory;
+use Hyperf\View\Engine\BladeEngine;
+use Hyperf\View\Mode;
+use Hyperf\View\RenderInterface;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
 $app = AppFactory::create();
 
 $app->config([
-    'db.default' => [
-        'host' => env('DB_HOST', 'localhost'),
-        'port' => env('DB_PORT', 3306),
-        'database' => env('DB_DATABASE', 'hyperf'),
-        'username' => env('DB_USERNAME', 'root'),
-        'password' => env('DB_PASSWORD', ''),
+    'view' => [
+        'engine' => BladeEngine::class,
+        // 不填写则默认为 Task 模式，推荐使用 Task 模式
+        'mode' => Mode::SYNC,
+        'config' => [
+            'view_path' => BASE_PATH . '/',
+            'cache_path' => BASE_PATH . '/',
+        ]
     ]
 ]);
-
-$app->get('/', function(){
-    return DB::query('SELECT * FROM `user` WHERE gender = ?;', [1]);
-});
-
-$app->run();
-```
-
-```php
-<?php
-
-use Hyperf\Nano\Factory\AppFactory;
-
-require_once __DIR__ . '/vendor/autoload.php';
-
-$app = AppFactory::create();
-
-$app->config([
-    'cache.default' => [
-        'driver' => Hyperf\Cache\Driver\RedisDriver::class,
-        'packer' => Hyperf\Utils\Packer\PhpSerializerPacker::class,
-        'prefix' => 'c:',
-    ],
-]);
-
-$app->get('/{key}', function(Psr\SimpleCache\CacheInterface $cache, $key){
-	return $cache->get($key, 'default');
+$app->get('/', function (RenderInterface $render) {
+    return $render->render('index', ['name' => 'Hyperf']);
 });
 
 $app->run();
