@@ -40,6 +40,7 @@ class AppFactory
             'server.servers.0.host' => $host,
             'server.servers.0.port' => $port,
         ]);
+        $app->addExceptionHandler(\Hyperf\HttpServer\Exception\Handler\HttpExceptionHandler::class);
         return $app;
     }
 
@@ -54,6 +55,7 @@ class AppFactory
             'server.servers.0.host' => $host,
             'server.servers.0.port' => $port,
         ]);
+        $app->addExceptionHandler(\Hyperf\HttpServer\Exception\Handler\HttpExceptionHandler::class);
         return $app;
     }
 
