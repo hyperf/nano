@@ -32,9 +32,9 @@ class AppFactory
     /**
      * Create an application.
      */
-    public static function create(string $host = '0.0.0.0', int $port = 9501): App
+    public static function create(string $host = '0.0.0.0', int $port = 9501, array $dependencies = []): App
     {
-        $app = self::createApp();
+        $app = self::createApp($dependencies);
         $app->config([
             'server' => Preset::default(),
             'server.servers.0.host' => $host,
@@ -47,9 +47,9 @@ class AppFactory
     /**
      * Create a single worker application in base mode, with max_requests = 0.
      */
-    public static function createBase(string $host = '0.0.0.0', int $port = 9501): App
+    public static function createBase(string $host = '0.0.0.0', int $port = 9501, array $dependencies = []): App
     {
-        $app = self::createApp();
+        $app = self::createApp($dependencies);
         $app->config([
             'server' => Preset::base(),
             'server.servers.0.host' => $host,
@@ -59,7 +59,7 @@ class AppFactory
         return $app;
     }
 
-    protected static function prepareContainer(): ContainerInterface
+    protected static function prepareContainer(array $dependencies = []): ContainerInterface
     {
         $config = new Config(ProviderConfig::load());
         $config->set(StdoutLoggerInterface::class, [
@@ -74,7 +74,8 @@ class AppFactory
                 LogLevel::WARNING,
             ],
         ]);
-        $container = new Container(new DefinitionSource($config->get('dependencies')));
+        $dependencies = array_merge($config->get('dependencies', []), $dependencies);
+        $container = new Container(new DefinitionSource($dependencies));
         $container->set(ConfigInterface::class, $config);
         $container->define(DispatcherFactory::class, DispatcherFactory::class);
         $container->define(BoundInterface::class, ContainerProxy::class);
@@ -100,13 +101,13 @@ class AppFactory
     /**
      * Create an application with a chosen preset.
      */
-    protected static function createApp(): App
+    protected static function createApp(array $dependencies = []): App
     {
         // Setting ini and flags
         self::prepareFlags();
 
         // Prepare container
-        $container = self::prepareContainer();
+        $container = self::prepareContainer($dependencies);
 
         return new App($container);
     }
