@@ -59,6 +59,20 @@ class AppFactory
         return $app;
     }
 
+    /**
+     * Create an application with a chosen preset.
+     */
+    public static function createApp(array $dependencies = []): App
+    {
+        // Setting ini and flags
+        self::prepareFlags();
+
+        // Prepare container
+        $container = self::prepareContainer($dependencies);
+
+        return new App($container);
+    }
+
     protected static function prepareContainer(array $dependencies = []): ContainerInterface
     {
         $config = new Config(ProviderConfig::load());
@@ -96,19 +110,5 @@ class AppFactory
         $projectRootPath = dirname($reflection->getFileName(), 3);
         ! defined('BASE_PATH') && define('BASE_PATH', $projectRootPath);
         ! defined('SWOOLE_HOOK_FLAGS') && define('SWOOLE_HOOK_FLAGS', $hookFlags);
-    }
-
-    /**
-     * Create an application with a chosen preset.
-     */
-    protected static function createApp(array $dependencies = []): App
-    {
-        // Setting ini and flags
-        self::prepareFlags();
-
-        // Prepare container
-        $container = self::prepareContainer($dependencies);
-
-        return new App($container);
     }
 }
