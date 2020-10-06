@@ -75,7 +75,7 @@ class AppFactory
                 LogLevel::WARNING,
             ],
         ]);
-        $container = new Container(new DefinitionSource($config->get('dependencies'), new ScanConfig()));
+        $container = new Container(new DefinitionSource($config->get('dependencies')));
         $container->set(ConfigInterface::class, $config);
         $container->define(DispatcherFactory::class, DispatcherFactory::class);
         $container->define(BoundInterface::class, ContainerProxy::class);

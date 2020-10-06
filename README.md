@@ -1,6 +1,7 @@
 English | [中文](./README-CN.md)
 
 <p align="left">
+  <a href="https://travis-ci.com/hyperf/nano"><img src="https://travis-ci.com/hyperf/nano.svg?branch=master"></a>
   <a href="https://opencollective.com/hyperf"><img src="https://opencollective.com/hyperf/all/badge.svg?label=financial+contributors" alt="Financial Contributors on Open Collective"></a>
   <a href="https://secure.php.net/"><img src="https://img.shields.io/badge/php-%3E=7.2-brightgreen.svg?maxAge=2592000" alt="Php Version"></a>
   <a href="https://github.com/swoole/swoole-src"><img src="https://img.shields.io/badge/swoole-%3E=4.4-brightgreen.svg?maxAge=2592000" alt="Swoole Version"></a>
