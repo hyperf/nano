@@ -28,6 +28,13 @@ class Foo
 }
 
 $app = AppFactory::createBase();
+$app->config([
+    'server' => [
+        'settings' => [
+            'daemonize' => (int) env('DAEMONIZE', 0),
+        ],
+    ],
+]);
 
 $app->get('/', function () {
     $user = $this->request->input('user', 'nano');

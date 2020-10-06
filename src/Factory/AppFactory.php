@@ -18,7 +18,6 @@ use Hyperf\Contract\ContainerInterface;
 use Hyperf\Contract\StdoutLoggerInterface;
 use Hyperf\Di\Container;
 use Hyperf\Di\Definition\DefinitionSource;
-use Hyperf\Di\Definition\ScanConfig;
 use Hyperf\HttpServer\Exception\Handler\HttpExceptionHandler;
 use Hyperf\HttpServer\Router\DispatcherFactory;
 use Hyperf\Nano\App;
