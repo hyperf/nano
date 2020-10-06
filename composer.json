@@ -30,8 +30,9 @@
         "hyperf/process": "~2.0.0",
         "hyperf/testing": "~2.0.0",
         "phpstan/phpstan": "^0.12",
-        "symfony/finder": "^4.0|^5.0",
-        "swoole/ide-helper": "^4.5.2"
+        "phpunit/phpunit": "^7.0",
+        "swoole/ide-helper": "^4.5.2",
+        "symfony/finder": "^4.0|^5.0"
     },
     "suggest": {
         "hyperf/crontab": "Required to use closure crontab",
@@ -42,12 +43,12 @@
     },
     "scripts": {
         "test": "co-phpunit -c phpunit.xml --colors=always",
-        "analyse": "phpstan analyse --memory-limit 300M -l 5 ./src",
+        "analyse": "phpstan analyse --memory-limit 4096M -l 5 -c phpstan.neon",
         "cs-fix": "php-cs-fixer fix $1"
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.1-dev"
+            "dev-master": "1.0-dev"
         },
         "hyperf": {
             "config": "Hyperf\\Nano\\ConfigProvider"
