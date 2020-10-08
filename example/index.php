@@ -19,15 +19,22 @@ use Hyperf\Nano\Factory\AppFactory;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-class Foo
+interface FooInterface
 {
-    public function bar()
+    public function bar(): string;
+}
+
+class Foo implements FooInterface
+{
+    public function bar(): string
     {
         return 'bar';
     }
 }
 
-$app = AppFactory::createBase();
+$app = AppFactory::createBase('0.0.0.0', 9501, [
+    FooInterface::class => Foo::class,
+]);
 $app->config([
     'server' => [
         'settings' => [
@@ -58,6 +65,11 @@ $app->get('/di', function () {
     /** @var ContainerProxy $this */
     $foo = $this->get(Foo::class);
     return $foo->bar();
+});
+
+$app->get('/foo', function () {
+    /* @var ContainerProxy $this */
+    return $this->get(FooInterface::class)->bar();
 });
 
 $app->get('/middleware', function () {
