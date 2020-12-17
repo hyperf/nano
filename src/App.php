@@ -271,7 +271,7 @@ class App
         if ($handler instanceof \Closure) {
             $handler = $handler->bindTo($this->bound, $this->bound);
         }
-        return $router->addRoute($httpMethod, $route, $handler, $options = []);
+        return $router->addRoute($httpMethod, $route, $handler, $options);
     }
 
     /**
