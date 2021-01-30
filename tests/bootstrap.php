@@ -9,4 +9,4 @@ declare(strict_types=1);
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/nano/blob/master/LICENSE
  */
-require_once 'vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
