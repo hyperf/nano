@@ -29,7 +29,7 @@
         "hyperf/utils": "^2.0.0"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^2.14",
+        "friendsofphp/php-cs-fixer": "^3.0",
         "hyperf/crontab": "^2.0.0",
         "hyperf/db": "^2.0.0",
         "hyperf/guzzle": "^2.0.0",
