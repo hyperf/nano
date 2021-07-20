@@ -30,3 +30,4 @@ vendor/friendsofphp/php-cs-fixer/tests/Runner/
 vendor/friendsofphp/php-cs-fixer/tests/Smoke/
 vendor/friendsofphp/php-cs-fixer/tests/Tokenizer/
 Would skip repository vendor/swoole/ide-helper
+.phpunit.result.cache
