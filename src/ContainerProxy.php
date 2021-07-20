@@ -44,7 +44,7 @@ class ContainerProxy implements BoundInterface, ContainerInterface
         return $this->container->{$name}(...$arguments);
     }
 
-    public function get($id)
+    public function get(string $id)
     {
         return $this->container->get($id);
     }
@@ -54,7 +54,7 @@ class ContainerProxy implements BoundInterface, ContainerInterface
         return $this->container->define($name, $definition);
     }
 
-    public function has($id)
+    public function has(string $id)
     {
         return $this->container->has($id);
     }
