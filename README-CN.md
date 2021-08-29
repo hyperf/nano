@@ -366,3 +366,63 @@ $app->get('/', function(){
 
 $app->run();
 ```
+
+
+### 热更新
+
+热更新组件 [hyperf/watcher](https://github.com/hyperf/watcher) 在 `v2.2.6` 版本开始，支持 `Nano` 热更新。
+
+首先我们需要引入组件
+
+```shell
+composer require hyperf/watcher
+```
+
+接下来编写样例代码 `index.php`
+
+```php
+<?php
+
+use Hyperf\Nano\Factory\AppFactory;
+use Hyperf\Watcher\Driver\ScanFileDriver;
+
+require_once __DIR__ . '/vendor/autoload.php';
+
+$app = AppFactory::createBase();
+$app->config([
+    'server.settings.pid_file' => BASE_PATH . '/hyperf.pid',
+    'watcher' => [
+        'driver' => ScanFileDriver::class,
+        'bin' => 'php',
+        'command' => 'index.php start',
+        'watch' => [
+            'dir' => [],
+            'file' => ['index.php'],
+            'scan_interval' => 2000,
+        ],
+    ],
+]);
+
+$app->get('/', function () {
+
+    $user = $this->request->input('user', 'nano');
+    $method = $this->request->getMethod();
+
+    return [
+        'message' => "Hello {$user}",
+        'method' => $method,
+    ];
+
+});
+
+$app->run();
+```
+
+启动服务
+
+```shell
+$ php index.php server:watch
+```
+
+最后我们只需要修改 `index.php` 的源码，就可以看到具体效果了。
+
