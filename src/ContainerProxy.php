@@ -71,6 +71,7 @@ class ContainerProxy implements BoundInterface, ContainerInterface
 
     public function unbind(string $name)
     {
+        /* @phpstan-ignore-next-line */
         return $this->container->unbind($name);
     }
 }
