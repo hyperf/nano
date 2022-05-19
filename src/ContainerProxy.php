@@ -68,4 +68,9 @@ class ContainerProxy implements BoundInterface, ContainerInterface
     {
         return $this->container->set($name, $entry);
     }
+
+    public function unbind(string $name)
+    {
+        return $this->container->unbind($name);
+    }
 }
