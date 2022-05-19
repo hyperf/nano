@@ -206,7 +206,7 @@ class App
 
     /**
      * Add a new crontab.
-     * @param callable | string $crontab
+     * @param callable|string $crontab
      */
     public function addCrontab(string $rule, $crontab)
     {
@@ -236,7 +236,7 @@ class App
 
     /**
      * Add a new process.
-     * @param callable | string $process
+     * @param callable|string $process
      */
     public function addProcess($process)
     {
