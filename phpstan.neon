@@ -8,3 +8,4 @@ parameters:
   ignoreErrors:
     - '#Static call to instance method Hyperf\\HttpServer\\Router\\Router::[a-zA-Z0-9\\_]+\(\)#'
     - '#Static call to instance method Hyperf\\DbConnection\\Db::[a-zA-Z0-9\\_]+\(\)#'
+    - '#Property Hyperf\\Nano\\ContainerProxy::\$(request|response) is never read, only written.#'
