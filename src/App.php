@@ -170,13 +170,13 @@ class App
      * Add a route group.
      * @param array|string $prefix
      */
-    public function addGroup($prefix, callable $callback, array $options = [])
+    public function addGroup($prefix, callable $callback, array $options = []): void
     {
         $router = $this->dispatcherFactory->getRouter($this->serverName);
         if (isset($options['middleware'])) {
             $this->convertClosureToMiddleware($options['middleware']);
         }
-        return $router->addGroup($prefix, $callback, $options);
+        $router->addGroup($prefix, $callback, $options);
     }
 
     /**
@@ -275,7 +275,7 @@ class App
      * @param mixed $httpMethod
      * @param mixed $handler
      */
-    public function addRoute($httpMethod, string $route, $handler, array $options = [])
+    public function addRoute($httpMethod, string $route, $handler, array $options = []): void
     {
         $router = $this->dispatcherFactory->getRouter($this->serverName);
         if (isset($options['middleware'])) {
@@ -284,7 +284,7 @@ class App
         if ($handler instanceof \Closure) {
             $handler = $handler->bindTo($this->bound, $this->bound);
         }
-        return $router->addRoute($httpMethod, $route, $handler, $options);
+        $router->addRoute($httpMethod, $route, $handler, $options);
     }
 
     /**
