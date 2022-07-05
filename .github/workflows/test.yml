@@ -75,7 +75,7 @@ jobs:
         run: composer update -o --no-scripts
       - name: Run Server
         run: |
-          php example/index.php start
+          php example/index.php start &
           sleep 5
       - name: Run Test Cases
         run: |
