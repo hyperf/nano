@@ -35,7 +35,7 @@
         "hyperf/guzzle": "^3.0.0",
         "hyperf/process": "^3.0.0",
         "hyperf/testing": "^3.0.0",
-        "phpstan/phpstan": "^0.12",
+        "phpstan/phpstan": "^1.0",
         "phpunit/phpunit": ">=7.0",
         "swoole/ide-helper": "^4.5.2",
         "symfony/finder": "^4.0|^5.0"
