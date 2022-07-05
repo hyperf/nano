@@ -190,7 +190,7 @@ class App
         }
 
         if (is_string($command)) {
-            $this->appendConfig('command' . $this->serverName, $command);
+            $this->appendConfig('commands', $command);
             return $this->container->get($command);
         }
 
