@@ -77,7 +77,9 @@ jobs:
         run: |
           php example/index.php start
           sleep 5
-      - name: Run Test Cases
+      - name: Run Analyse
         run: |
           composer analyse src
+      - name: Run Test Cases
+        run: |
           composer test
