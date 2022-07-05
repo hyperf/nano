@@ -50,7 +50,7 @@
     },
     "scripts": {
         "test": "co-phpunit -c phpunit.xml --colors=always",
-        "analyse": "phpstan analyse --memory-limit 4096M -l 5 -c phpstan.neon",
+        "analyse": "phpstan analyse --memory-limit=-1 -l 5 -c phpstan.neon",
         "cs-fix": "php-cs-fixer fix $1"
     },
     "extra": {
