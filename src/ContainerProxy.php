@@ -17,24 +17,12 @@ use Hyperf\HttpServer\Contract\ResponseInterface;
 
 class ContainerProxy implements BoundInterface, ContainerInterface
 {
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
+    private \Hyperf\HttpServer\Contract\RequestInterface $request;
 
-    /**
-     * @var RequestInterface
-     */
-    private $request;
+    private \Hyperf\HttpServer\Contract\ResponseInterface $response;
 
-    /**
-     * @var ResponseInterface
-     */
-    private $response;
-
-    public function __construct(ContainerInterface $container)
+    public function __construct(private ContainerInterface $container)
     {
-        $this->container = $container;
         $this->request = $container->get(RequestInterface::class);
         $this->response = $container->get(ResponseInterface::class);
     }

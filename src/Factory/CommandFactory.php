@@ -18,12 +18,9 @@ class CommandFactory
     public function create(string $name, \Closure $closure): Command
     {
         return new class($name, $closure) extends Command {
-            private $closure;
-
-            public function __construct(string $name, \Closure $closure)
+            public function __construct(string $name, private \Closure $closure)
             {
                 parent::__construct($name);
-                $this->closure = $closure;
             }
 
             public function handle()

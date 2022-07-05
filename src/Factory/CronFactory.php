@@ -15,14 +15,8 @@ use Hyperf\Contract\ContainerInterface;
 
 class CronFactory
 {
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
-
-    public function __construct(ContainerInterface $container)
+    public function __construct(private ContainerInterface $container)
     {
-        $this->container = $container;
     }
 
     public function execute($name)

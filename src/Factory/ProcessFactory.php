@@ -21,12 +21,9 @@ class ProcessFactory
     {
         $container = ApplicationContext::getContainer();
         return new class($container, $closure) extends AbstractProcess {
-            private $closure;
-
-            public function __construct(ContainerInterface $container, \Closure $closure)
+            public function __construct(ContainerInterface $container, private \Closure $closure)
             {
                 parent::__construct($container);
-                $this->closure = $closure;
             }
 
             public function handle(): void

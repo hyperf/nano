@@ -37,11 +37,6 @@ use Psr\Http\Server\MiddlewareInterface;
 class App
 {
     /**
-     * @var ContainerInterface
-     */
-    protected $container;
-
-    /**
      * @var ConfigInterface
      */
     protected $config;
@@ -56,11 +51,10 @@ class App
      */
     protected $bound;
 
-    private $serverName = 'http';
+    private string $serverName = 'http';
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(protected ContainerInterface $container)
     {
-        $this->container = $container;
         $this->config = $this->container->get(ConfigInterface::class);
         $this->dispatcherFactory = $this->container->get(DispatcherFactory::class);
         $this->bound = $this->container->has(BoundInterface::class)
@@ -108,7 +102,7 @@ class App
      * Add a middleware globally.
      * @param callable|MiddlewareInterface|string $middleware
      */
-    public function addMiddleware($middleware)
+    public function addMiddleware(callable|\Psr\Http\Server\MiddlewareInterface|string $middleware)
     {
         if ($middleware instanceof MiddlewareInterface || is_string($middleware)) {
             $this->appendConfig('middlewares.' . $this->serverName, $middleware);
@@ -127,7 +121,7 @@ class App
      * Add an exception handler globally.
      * @param callable|string $exceptionHandler
      */
-    public function addExceptionHandler($exceptionHandler)
+    public function addExceptionHandler(callable|string $exceptionHandler)
     {
         if (is_string($exceptionHandler)) {
             $this->appendConfig('exceptions.handler.' . $this->serverName, $exceptionHandler);
@@ -168,9 +162,8 @@ class App
 
     /**
      * Add a route group.
-     * @param array|string $prefix
      */
-    public function addGroup($prefix, callable $callback, array $options = []): void
+    public function addGroup(array|string $prefix, callable $callback, array $options = []): void
     {
         $router = $this->dispatcherFactory->getRouter($this->serverName);
         if (isset($options['middleware'])) {
@@ -216,7 +209,7 @@ class App
      * Add a new crontab.
      * @param callable|string $crontab
      */
-    public function addCrontab(string $rule, $crontab): Crontab
+    public function addCrontab(string $rule, callable|string $crontab): Crontab
     {
         $this->config->set('crontab.enable', true);
         $this->ensureConfigHasValue('processes', CrontabDispatcherProcess::class);
@@ -251,7 +244,7 @@ class App
      * Add a new process.
      * @param callable|string $process
      */
-    public function addProcess($process)
+    public function addProcess(callable|string $process)
     {
         if (is_string($process)) {
             $this->appendConfig('processes', $process);
