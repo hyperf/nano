@@ -23,7 +23,7 @@ jobs:
           - php-version: '8.1'
             sw-version: 'v4.6.7'
           - php-version: '8.1'
-            sw-version: 'v4.7.1'
+            sw-version: 'v4.7.0'
       max-parallel: 12
     steps:
       - name: Checkout
