@@ -17,9 +17,9 @@ use Hyperf\HttpServer\Contract\ResponseInterface;
 
 class ContainerProxy implements BoundInterface, ContainerInterface
 {
-    private \Hyperf\HttpServer\Contract\RequestInterface $request;
+    private ?\Hyperf\HttpServer\Contract\RequestInterface $request;
 
-    private \Hyperf\HttpServer\Contract\ResponseInterface $response;
+    private ?\Hyperf\HttpServer\Contract\ResponseInterface $response;
 
     public function __construct(private ContainerInterface $container)
     {
