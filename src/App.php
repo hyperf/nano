@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Hyperf\Nano;
 
 use Closure;
+use Hyperf\Command\Command;
 use Hyperf\Contract\ConfigInterface;
 use Hyperf\Contract\ContainerInterface;
 use Hyperf\Crontab\Crontab;
@@ -182,25 +183,32 @@ class App
      * Add a new command.
      * @param null|callable|string $command
      */
-    public function addCommand(string $name, $command = null)
+    public function addCommand(string $name, $command = null): Command
     {
         if ($command === null) {
             $command = $name;
         }
 
         if (is_string($command)) {
-            $this->appendConfig('command' . $this->serverName, $command);
-            return;
+            $this->appendConfig('commands', $command);
+            return $this->container->get($command);
         }
 
         $command = Closure::fromCallable($command);
+        /** @var CommandFactory $commandFactory */
         $commandFactory = $this->container->get(CommandFactory::class);
         $handler = $commandFactory->create($name, $command->bindTo($this->bound, $this->bound));
-        $handlerId = spl_object_hash($handler);
-        $this->container->set($handlerId, $handler);
-        $this->appendConfig(
-            'commands',
-            $handlerId
+
+        return tap(
+            $handler,
+            function ($handler) {
+                $handlerId = spl_object_hash($handler);
+                $this->container->set($handlerId, $handler);
+                $this->appendConfig(
+                    'commands',
+                    $handlerId
+                );
+            }
         );
     }
 
@@ -208,14 +216,14 @@ class App
      * Add a new crontab.
      * @param callable|string $crontab
      */
-    public function addCrontab(string $rule, $crontab)
+    public function addCrontab(string $rule, $crontab): Crontab
     {
         $this->config->set('crontab.enable', true);
         $this->ensureConfigHasValue('processes', CrontabDispatcherProcess::class);
 
         if ($crontab instanceof Crontab) {
             $this->appendConfig('crontab.crontab', $crontab);
-            return;
+            return $crontab;
         }
 
         $callback = \Closure::fromCallable($crontab);
@@ -225,12 +233,17 @@ class App
         $this->ensureConfigHasValue('processes', CrontabDispatcherProcess::class);
         $this->config->set('crontab.enable', true);
 
-        $this->appendConfig(
-            'crontab.crontab',
+        return tap(
             (new Crontab())
                 ->setName(uniqid())
                 ->setRule($rule)
-                ->setCallback([CronFactory::class, 'execute', [$callbackId]])
+                ->setCallback([CronFactory::class, 'execute', [$callbackId]]),
+            function ($crontab) {
+                $this->appendConfig(
+                    'crontab.crontab',
+                    $crontab
+                );
+            }
         );
     }
 

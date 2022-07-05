@@ -173,7 +173,7 @@ $app = AppFactory::create();
 
 $app->addCommand('echo', function(){
     $this->get(StdoutLoggerInterface::class)->info('A new command called echo!');
-});
+})->setDescription('Echo command.');
 
 $app->run();
 ```
@@ -234,7 +234,7 @@ $app = AppFactory::create();
 
 $app->addCrontab('* * * * * *', function(){
     $this->get(StdoutLoggerInterface::class)->info('execute every second!');
-});
+})->setOnOneServer(true)->setMemo('Test crontab.');
 
 $app->run();
 ```
