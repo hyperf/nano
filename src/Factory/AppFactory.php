@@ -11,6 +11,9 @@ declare(strict_types=1);
  */
 namespace Hyperf\Nano\Factory;
 
+use Dotenv\Dotenv;
+use Dotenv\Repository\Adapter\PutenvAdapter;
+use Dotenv\Repository\RepositoryBuilder;
 use Hyperf\Config\Config;
 use Hyperf\Config\ProviderConfig;
 use Hyperf\Contract\ConfigInterface;
@@ -67,6 +70,11 @@ class AppFactory
         // Setting ini and flags
         self::prepareFlags();
 
+        // Load envs
+        if (file_exists(BASE_PATH . '/.env')) {
+            self::loadDotenv();
+        }
+
         // Prepare container
         $container = self::prepareContainer($dependencies);
 
@@ -110,5 +118,18 @@ class AppFactory
         $projectRootPath = dirname($reflection->getFileName(), 3);
         ! defined('BASE_PATH') && define('BASE_PATH', $projectRootPath);
         ! defined('SWOOLE_HOOK_FLAGS') && define('SWOOLE_HOOK_FLAGS', $hookFlags);
+    }
+
+    /**
+     * Setup envs.
+     */
+    protected static function loadDotenv(): void
+    {
+        $repository = RepositoryBuilder::createWithNoAdapters()
+            ->addAdapter(PutenvAdapter::class)
+            ->immutable()
+            ->make();
+
+        Dotenv::create($repository, [BASE_PATH])->load();
     }
 }
