@@ -16,7 +16,7 @@ jobs:
         os: [ ubuntu-latest ]
         php-version: [ '8.0', '8.1' ]
         engine: [ 'swoole' ]
-        swoole-version: [ 'v4.5.11', 'v4.6.7', 'v4.7.0', 'v4.8.10' ]
+        swoole-version: [ 'v4.5.11', 'v4.6.7', 'v4.7.0', 'v4.8.10', 'master' ]
         exclude:
           - php-version: '8.1'
             sw-version: 'v4.5.11'
