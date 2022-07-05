@@ -33,7 +33,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
           tools: phpize
-          ini-values: opcache.enable_cli=1, swoole.use_shortname='Off'
+          ini-values: opcache.enable_cli=0, swoole.use_shortname='Off'
           coverage: none
       - name: Setup Swoole
         if: ${{ matrix.engine == 'swoole' }}
@@ -51,7 +51,6 @@ jobs:
           sudo make install
           sudo sh -c "echo extension=swoole > /etc/php/${{ matrix.php-version }}/cli/conf.d/swoole.ini"
           sudo sh -c "echo swoole.use_shortname='Off' >> /etc/php/${{ matrix.php-version }}/cli/conf.d/swoole.ini"
-          sudo sh -c "echo opcache.enable='Off' > /etc/php/${{ matrix.php-version }}/cli/conf.d/opcache.ini"
           php --ri swoole
       - name: Setup Swow
         if: ${{ matrix.engine == 'swow' }}
