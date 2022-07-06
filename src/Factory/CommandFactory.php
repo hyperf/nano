@@ -12,21 +12,14 @@ declare(strict_types=1);
 namespace Hyperf\Nano\Factory;
 
 use Hyperf\Command\Command;
+use Hyperf\Utils\ApplicationContext;
 
 class CommandFactory
 {
     public function create(string $name, \Closure $closure): Command
     {
-        return new class($name, $closure) extends Command {
-            public function __construct(string $name, private \Closure $closure)
-            {
-                parent::__construct($name);
-            }
+        $container = ApplicationContext::getContainer();
 
-            public function handle()
-            {
-                call($this->closure);
-            }
-        };
+        return new ClosureCommand($container, $name, $closure);
     }
 }
