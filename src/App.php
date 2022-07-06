@@ -102,7 +102,7 @@ class App
      * Add a middleware globally.
      * @param callable|MiddlewareInterface|string $middleware
      */
-    public function addMiddleware(callable|\Psr\Http\Server\MiddlewareInterface|string $middleware)
+    public function addMiddleware(callable|MiddlewareInterface|string $middleware)
     {
         if ($middleware instanceof MiddlewareInterface || is_string($middleware)) {
             $this->appendConfig('middlewares.' . $this->serverName, $middleware);
