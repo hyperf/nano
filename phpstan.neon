@@ -4,7 +4,13 @@
 # vendor/bin/phpstan analyse app --memory-limit 200M -l 0
 #
 parameters:
+  bootstrapFiles:
+    - "vendor/autoload.php"
+  inferPrivatePropertyTypeFromConstructor: true
+  treatPhpDocTypesAsCertain: true
   reportUnmatchedIgnoredErrors: false
   ignoreErrors:
     - '#Static call to instance method Hyperf\\HttpServer\\Router\\Router::[a-zA-Z0-9\\_]+\(\)#'
     - '#Static call to instance method Hyperf\\DbConnection\\Db::[a-zA-Z0-9\\_]+\(\)#'
+    - '#Property Hyperf\\Nano\\ContainerProxy::\$(request|response) is never read, only written.#'
+    - '#Constant BASE_PATH not found.#'

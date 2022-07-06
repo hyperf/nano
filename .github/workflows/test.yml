@@ -14,9 +14,14 @@ jobs:
     strategy:
       matrix:
         os: [ ubuntu-latest ]
-        php-version: [ '7.2', '7.3', '7.4', '8.0' ]
+        php-version: [ '8.0', '8.1' ]
         engine: [ 'swoole' ]
-        swoole-version: [ 'v4.5.11', 'v4.6.7', 'v4.7.0', 'v4.8.10' ]
+        swoole-version: [ 'v4.6.7', 'v4.7.1', 'v4.8.10', 'master' ]
+        exclude:
+          - php-version: '8.1'
+            swoole-version: 'v4.6.7'
+          - php-version: '8.1'
+            swoole-version: 'v4.7.1'
       max-parallel: 12
     steps:
       - name: Checkout
@@ -26,7 +31,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
           tools: phpize
-          ini-values: opcache.enable_cli=1, swoole.use_shortname='Off'
+          ini-values: opcache.enable_cli=0, swoole.use_shortname='Off'
           coverage: none
       - name: Setup Swoole
         if: ${{ matrix.engine == 'swoole' }}
@@ -70,7 +75,9 @@ jobs:
         run: |
           php example/index.php start
           sleep 5
-      - name: Run Test Cases
+      - name: Run Analyse
         run: |
           composer analyse src
+      - name: Run Test Cases
+        run: |
           composer test

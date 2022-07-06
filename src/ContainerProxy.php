@@ -17,24 +17,12 @@ use Hyperf\HttpServer\Contract\ResponseInterface;
 
 class ContainerProxy implements BoundInterface, ContainerInterface
 {
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
+    private ?RequestInterface $request;
 
-    /**
-     * @var RequestInterface
-     */
-    private $request;
+    private ?ResponseInterface $response;
 
-    /**
-     * @var ResponseInterface
-     */
-    private $response;
-
-    public function __construct(ContainerInterface $container)
+    public function __construct(private ContainerInterface $container)
     {
-        $this->container = $container;
         $this->request = $container->get(RequestInterface::class);
         $this->response = $container->get(ResponseInterface::class);
     }
@@ -49,9 +37,9 @@ class ContainerProxy implements BoundInterface, ContainerInterface
         return $this->container->get($id);
     }
 
-    public function define(string $name, $definition)
+    public function define(string $name, $definition): void
     {
-        return $this->container->define($name, $definition);
+        $this->container->define($name, $definition);
     }
 
     public function has($id): bool
@@ -64,14 +52,14 @@ class ContainerProxy implements BoundInterface, ContainerInterface
         return $this->container->make($name, $parameters);
     }
 
-    public function set(string $name, $entry)
+    public function set(string $name, $entry): void
     {
-        return $this->container->set($name, $entry);
+        $this->container->set($name, $entry);
     }
 
-    public function unbind(string $name)
+    public function unbind(string $name): void
     {
         /* @phpstan-ignore-next-line */
-        return $this->container->unbind($name);
+        $this->container->unbind($name);
     }
 }

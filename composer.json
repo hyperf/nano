@@ -19,23 +19,23 @@
         }
     },
     "require": {
-        "php": ">=7.2",
+        "php": ">=8.0",
         "ext-swoole": ">=4.5",
-        "hyperf/command": "^2.0.0",
-        "hyperf/config": "^2.0.0",
-        "hyperf/di": "^2.0.0",
-        "hyperf/framework": "^2.0.0",
-        "hyperf/http-server": "^2.0.0",
-        "hyperf/utils": "^2.0.0"
+        "hyperf/command": "^3.0.0",
+        "hyperf/config": "^3.0.0",
+        "hyperf/di": "^3.0.0",
+        "hyperf/framework": "^3.0.0",
+        "hyperf/http-server": "^3.0.0",
+        "hyperf/utils": "^3.0.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.0",
-        "hyperf/crontab": "^2.0.0",
-        "hyperf/db": "^2.0.0",
-        "hyperf/guzzle": "^2.0.0",
-        "hyperf/process": "^2.0.0",
-        "hyperf/testing": "^2.0.0",
-        "phpstan/phpstan": "^0.12",
+        "hyperf/crontab": "^3.0.0",
+        "hyperf/db": "^3.0.0",
+        "hyperf/guzzle": "^3.0.0",
+        "hyperf/process": "^3.0.0",
+        "hyperf/testing": "^3.0.0",
+        "phpstan/phpstan": "^1.0",
         "phpunit/phpunit": ">=7.0",
         "swoole/ide-helper": "^4.5.2",
         "symfony/finder": "^4.0|^5.0"
@@ -44,17 +44,18 @@
         "hyperf/crontab": "Required to use closure crontab",
         "hyperf/process": "Required to use closure process"
     },
+    "minimum-stability": "dev",
     "config": {
         "sort-packages": true
     },
     "scripts": {
         "test": "co-phpunit -c phpunit.xml --colors=always",
-        "analyse": "phpstan analyse --memory-limit 4096M -l 5 -c phpstan.neon",
+        "analyse": "phpstan analyse --memory-limit=-1 -l 5 -c phpstan.neon",
         "cs-fix": "php-cs-fixer fix $1"
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.0-dev"
+            "dev-master": "2.0-dev"
         },
         "hyperf": {
             "config": "Hyperf\\Nano\\ConfigProvider"
