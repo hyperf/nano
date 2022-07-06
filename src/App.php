@@ -18,7 +18,6 @@ use Hyperf\Contract\ContainerInterface;
 use Hyperf\Crontab\Crontab;
 use Hyperf\Crontab\Process\CrontabDispatcherProcess;
 use Hyperf\HttpServer\Router\DispatcherFactory;
-use Hyperf\Nano\Factory\ClosureCommand;
 use Hyperf\Nano\Factory\ClosureProcess;
 use Hyperf\Nano\Factory\CommandFactory;
 use Hyperf\Nano\Factory\CronFactory;
@@ -177,10 +176,10 @@ class App
      * Add a new command.
      * @param null|callable|string $command
      */
-    public function addCommand(string $name, $command = null): ClosureCommand
+    public function addCommand(string $signature, $command = null): Command
     {
         if ($command === null) {
-            $command = $name;
+            $command = $signature;
         }
 
         if (is_string($command)) {
@@ -191,7 +190,7 @@ class App
         $command = Closure::fromCallable($command);
         /** @var CommandFactory $commandFactory */
         $commandFactory = $this->container->get(CommandFactory::class);
-        $handler = $commandFactory->create($name, $command->bindTo($this->bound, $this->bound));
+        $handler = $commandFactory->create($signature, $command->bindTo($this->bound, $this->bound));
 
         return tap(
             $handler,
@@ -254,6 +253,7 @@ class App
         $callback = \Closure::fromCallable($process);
         $callback = $callback->bindTo($this->bound, $this->bound);
         $processFactory = $this->container->get(ProcessFactory::class);
+
         return tap($processFactory->create($callback), function ($process) {
             $processId = spl_object_hash($process);
             $this->container->set($processId, $process);

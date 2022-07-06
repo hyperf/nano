@@ -16,10 +16,10 @@ use Hyperf\Utils\ApplicationContext;
 
 class CommandFactory
 {
-    public function create(string $name, \Closure $closure): Command
+    public function create(string $signature, \Closure $closure): Command
     {
         $container = ApplicationContext::getContainer();
 
-        return new ClosureCommand($container, $name, $closure);
+        return new ClosureCommand($container, $signature, $closure);
     }
 }

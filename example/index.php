@@ -11,6 +11,7 @@ declare(strict_types=1);
  */
 namespace Hyperf\Nano;
 
+use Hyperf\Command\Command;
 use Hyperf\Contract\StdoutLoggerInterface;
 use Hyperf\DB\DB;
 use Hyperf\Framework\Event\BootApplication;
@@ -89,24 +90,26 @@ $app->addExceptionHandler(function ($throwable, $response) {
     return $response->withStatus('418')->withBody(new SwooleStream('I\'m a teapot'));
 });
 
-$app->addCommand('echo', function () {
-    $this->get(StdoutLoggerInterface::class)->info('A new command called echo!');
-});
+$app->addCommand('echo {--name=Nano}', function ($name) {
+    /* @var Command $this */
+    $this->output->info("Hello, {$name}!");
+})->setDescription('The echo command.');
 
 $app->addListener(BootApplication::class, function ($event) {
     $this->get(StdoutLoggerInterface::class)->info('App started');
 });
 
 $app->addProcess(function () {
+    $name = $this->name;
     while (true) {
         sleep(1);
-        $this->get(StdoutLoggerInterface::class)->info('Processing...');
+        $this->container->get(StdoutLoggerInterface::class)->info("{$name} Processing...");
     }
-});
+})->setName('nano-process');
 
 $app->addCrontab('* * * * * *', function () {
     $this->get(StdoutLoggerInterface::class)->info('execute every second!');
-});
+})->setName('nano-crontab');
 
 $app->config([
     'db.default' => [
