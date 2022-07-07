@@ -34,7 +34,7 @@ class ClosureProcess extends AbstractProcess
     public function isEnable($server): bool
     {
         if (is_callable($this->enable)) {
-            return (bool) call($this->enable, []);
+            return (bool) call($this->enable, [$server]);
         }
 
         return (bool) $this->enable;
