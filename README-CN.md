@@ -177,9 +177,9 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 $app = AppFactory::create();
 
-$app->addCommand('echo', function(){
-    $this->get(StdoutLoggerInterface::class)->info('A new command called echo!');
-})->setDescription('Echo command.');
+$app->addCommand('echo {--name=Nano}', function(){
+    $this->output->info("Hello, {$name}");
+})->setDescription('The echo command.');
 
 $app->run();
 ```
@@ -225,7 +225,7 @@ $app->addProcess(function(){
         sleep(1);
         $this->get(StdoutLoggerInterface::class)->info('Processing...');
     }
-});
+})->setName('nano-process')->setNums(1);
 
 $app->run();
 ```
@@ -243,7 +243,7 @@ $app = AppFactory::create();
 
 $app->addCrontab('* * * * * *', function(){
     $this->get(StdoutLoggerInterface::class)->info('execute every second!');
-})->setOnOneServer(true)->setMemo('Test crontab.');
+})->setName('nano-crontab')->setOnOneServer(true)->setMemo('Test crontab.');
 
 $app->run();
 ```
