@@ -105,7 +105,7 @@ $app->addProcess(function () {
         sleep(1);
         $this->container->get(StdoutLoggerInterface::class)->info("{$name} Processing...");
     }
-})->setName('nano-process');
+})->setName('nano-process')->setEnable(fn () => true);
 
 $app->addCrontab('* * * * * *', function () {
     $this->get(StdoutLoggerInterface::class)->info('execute every second!');
