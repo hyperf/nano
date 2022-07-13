@@ -12,8 +12,8 @@ declare(strict_types=1);
 namespace HyperfTest\Nano;
 
 use GuzzleHttp\Client;
-use PHPUnit\Framework\TestCase;
 use Hyperf\Guzzle\CoroutineHandler;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @internal

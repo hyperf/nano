@@ -18,11 +18,13 @@ use Hyperf\Contract\ContainerInterface;
 use Hyperf\Crontab\Crontab;
 use Hyperf\Crontab\Process\CrontabDispatcherProcess;
 use Hyperf\HttpServer\Router\DispatcherFactory;
+use Hyperf\Nano\Factory\ClosureProcess;
 use Hyperf\Nano\Factory\CommandFactory;
 use Hyperf\Nano\Factory\CronFactory;
 use Hyperf\Nano\Factory\ExceptionHandlerFactory;
 use Hyperf\Nano\Factory\MiddlewareFactory;
 use Hyperf\Nano\Factory\ProcessFactory;
+use Hyperf\Process\AbstractProcess;
 use Psr\EventDispatcher\ListenerProviderInterface;
 use Psr\Http\Server\MiddlewareInterface;
 
@@ -100,7 +102,6 @@ class App
 
     /**
      * Add a middleware globally.
-     * @param callable|MiddlewareInterface|string $middleware
      */
     public function addMiddleware(callable|MiddlewareInterface|string $middleware)
     {
@@ -119,7 +120,6 @@ class App
 
     /**
      * Add an exception handler globally.
-     * @param callable|string $exceptionHandler
      */
     public function addExceptionHandler(callable|string $exceptionHandler)
     {
@@ -176,10 +176,10 @@ class App
      * Add a new command.
      * @param null|callable|string $command
      */
-    public function addCommand(string $name, $command = null): Command
+    public function addCommand(string $signature, $command = null): Command
     {
         if ($command === null) {
-            $command = $name;
+            $command = $signature;
         }
 
         if (is_string($command)) {
@@ -190,7 +190,7 @@ class App
         $command = Closure::fromCallable($command);
         /** @var CommandFactory $commandFactory */
         $commandFactory = $this->container->get(CommandFactory::class);
-        $handler = $commandFactory->create($name, $command->bindTo($this->bound, $this->bound));
+        $handler = $commandFactory->create($signature, $command->bindTo($this->bound, $this->bound));
 
         return tap(
             $handler,
@@ -207,7 +207,6 @@ class App
 
     /**
      * Add a new crontab.
-     * @param callable|string $crontab
      */
     public function addCrontab(string $rule, callable|string $crontab): Crontab
     {
@@ -242,25 +241,27 @@ class App
 
     /**
      * Add a new process.
-     * @param callable|string $process
+     * @return AbstractProcess|ClosureProcess
      */
     public function addProcess(callable|string $process)
     {
         if (is_string($process)) {
             $this->appendConfig('processes', $process);
-            return;
+            return $this->container->get($process);
         }
 
         $callback = \Closure::fromCallable($process);
         $callback = $callback->bindTo($this->bound, $this->bound);
         $processFactory = $this->container->get(ProcessFactory::class);
-        $process = $processFactory->create($callback);
-        $processId = spl_object_hash($process);
-        $this->container->set($processId, $process);
-        $this->appendConfig(
-            'processes',
-            $processId
-        );
+
+        return tap($processFactory->create($callback), function ($process) {
+            $processId = spl_object_hash($process);
+            $this->container->set($processId, $process);
+            $this->appendConfig(
+                'processes',
+                $processId
+            );
+        });
     }
 
     /**
