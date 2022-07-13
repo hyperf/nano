@@ -19,13 +19,13 @@ use Psr\Container\ContainerInterface;
 
 class ParameterParser
 {
-    private ?ContainerInterface $container;
+    private ContainerInterface $container;
 
-    private ?NormalizerInterface $normalizer;
+    private NormalizerInterface $normalizer;
 
-    private ?ClosureDefinitionCollectorInterface $closureDefinitionCollector;
+    private ?ClosureDefinitionCollectorInterface $closureDefinitionCollector = null;
 
-    private ?MethodDefinitionCollectorInterface $methodDefinitionCollector;
+    private ?MethodDefinitionCollectorInterface $methodDefinitionCollector = null;
 
     public function __construct(ContainerInterface $container)
     {
