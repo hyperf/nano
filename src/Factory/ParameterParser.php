@@ -12,24 +12,22 @@ declare(strict_types=1);
 namespace Hyperf\Nano\Factory;
 
 use Closure;
-use Hyperf\Contract\NormalizerInterface;
-use Hyperf\Di\ClosureDefinitionCollectorInterface;
-use Hyperf\Di\MethodDefinitionCollectorInterface;
+use Hyperf\Utils\Str;
 use Psr\Container\ContainerInterface;
+use Hyperf\Contract\NormalizerInterface;
+use Hyperf\Di\MethodDefinitionCollectorInterface;
+use Hyperf\Di\ClosureDefinitionCollectorInterface;
 
 class ParameterParser
 {
-    private ContainerInterface $container;
-
     private NormalizerInterface $normalizer;
 
     private ?ClosureDefinitionCollectorInterface $closureDefinitionCollector = null;
 
     private ?MethodDefinitionCollectorInterface $methodDefinitionCollector = null;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(private ContainerInterface $container)
     {
-        $this->container = $container;
         $this->normalizer = $this->container->get(NormalizerInterface::class);
 
         if ($this->container->has(ClosureDefinitionCollectorInterface::class)) {
@@ -57,6 +55,10 @@ class ParameterParser
 
     public function parseMethodParameters(string $class, string $method, array $arguments): array
     {
+        if (! $this->methodDefinitionCollector) {
+            return [];
+        }
+
         $definitions = $this->methodDefinitionCollector->getParameters($class, $method);
         return $this->getInjections($definitions, "{$class}::{$method}", $arguments);
     }
@@ -69,7 +71,7 @@ class ParameterParser
         $injections = [];
 
         foreach ($definitions as $pos => $definition) {
-            $value = $arguments[$pos] ?? $arguments[$definition->getMeta('name')] ?? null;
+            $value = $arguments[$pos] ?? $arguments[$definition->getMeta('name')] ?? $arguments[Str::snake($definition->getMeta('name'), '-')] ?? null;
             if ($value === null) {
                 if ($definition->getMeta('defaultValueAvailable')) {
                     $injections[] = $definition->getMeta('defaultValue');
