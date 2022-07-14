@@ -171,7 +171,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 $app = AppFactory::create();
 
-$app->addCommand('echo {--name=Nano}', function(){
+$app->addCommand('echo {--name=Nano}', function($name){
     $this->output->info("Hello, {$name}");
 })->setDescription('The echo command.');
 
