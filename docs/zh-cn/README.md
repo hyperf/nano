@@ -168,7 +168,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 $app = AppFactory::create();
 
 $app->addCommand('echo', function(){
-    $this->get(StdoutLoggerInterface::class)->info('A new command called echo!');
+    $this->output->info('A new command called echo!');
 });
 
 $app->run();
