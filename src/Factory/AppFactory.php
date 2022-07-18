@@ -112,7 +112,7 @@ class AppFactory
             'log_level' => [
                 LogLevel::ALERT,
                 LogLevel::CRITICAL,
-                LogLevel::DEBUG,
+                env('APP_DEBUG', false) ? LogLevel::DEBUG : null,
                 LogLevel::EMERGENCY,
                 LogLevel::ERROR,
                 LogLevel::INFO,
