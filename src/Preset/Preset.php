@@ -28,4 +28,14 @@ class Preset
     {
         return include __DIR__ . '/Base.php';
     }
+
+    public static function swooleCoroutine(): array
+    {
+        return include __DIR__ . '/SwooleCoroutine.php';
+    }
+
+    public static function swow(): array
+    {
+        return include __DIR__ . '/Swow.php';
+    }
 }

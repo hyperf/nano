@@ -62,6 +62,30 @@ class AppFactory
         return $app;
     }
 
+    public static function createCoroutine(string $host = '0.0.0.0', int $port = 9501, array $dependencies = []): App
+    {
+        $app = self::createApp($dependencies);
+        $app->config([
+            'server' => Preset::swooleCoroutine(),
+            'server.servers.0.host' => $host,
+            'server.servers.0.port' => $port,
+        ]);
+        $app->addExceptionHandler(HttpExceptionHandler::class);
+        return $app;
+    }
+
+    public static function createSwow(string $host = '0.0.0.0', int $port = 9501, array $dependencies = []): App
+    {
+        $app = self::createApp($dependencies);
+        $app->config([
+            'server' => Preset::swow(),
+            'server.servers.0.host' => $host,
+            'server.servers.0.port' => $port,
+        ]);
+        $app->addExceptionHandler(HttpExceptionHandler::class);
+        return $app;
+    }
+
     /**
      * Create an application with a chosen preset.
      */
