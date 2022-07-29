@@ -266,3 +266,23 @@ $app->get('/', function(){
 
 $app->run();
 ```
+
+### How to use Swow
+
+```php
+<?php
+
+declare(strict_types=1);
+
+use Hyperf\Nano\Factory\AppFactory;
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+$app = AppFactory::createSwow();
+
+$app->get('/', function () {
+    return 'Hello World';
+});
+
+$app->run();
+```
