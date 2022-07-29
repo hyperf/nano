@@ -20,10 +20,10 @@
     },
     "require": {
         "php": ">=8.0",
-        "ext-swoole": ">=4.5",
         "hyperf/command": "^3.0.0",
         "hyperf/config": "^3.0.0",
         "hyperf/di": "^3.0.0",
+        "hyperf/engine-swow": "^1.2",
         "hyperf/framework": "^3.0.0",
         "hyperf/http-server": "^3.0.0",
         "hyperf/utils": "^3.0.0"
@@ -45,7 +45,9 @@
         "hyperf/process": "Required to use closure process"
     },
     "minimum-stability": "dev",
+    "prefer-stable": true,
     "config": {
+        "optimize-autoloader": true,
         "sort-packages": true
     },
     "scripts": {
