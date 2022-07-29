@@ -426,3 +426,30 @@ $ php index.php server:watch
 
 最后我们只需要修改 `index.php` 的源码，就可以看到具体效果了。
 
+### 如何使用 Swow
+
+- 安装兼容层
+
+```shell
+composer require "hyperf/engine-swow:^2.0"
+```
+
+- 运行代码
+
+```php
+<?php
+
+declare(strict_types=1);
+
+use Hyperf\Nano\Factory\AppFactory;
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+$app = AppFactory::createSwow();
+
+$app->get('/', function () {
+    return 'Hello World';
+});
+
+$app->run();
+```

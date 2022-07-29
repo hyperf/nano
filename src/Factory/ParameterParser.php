@@ -12,11 +12,11 @@ declare(strict_types=1);
 namespace Hyperf\Nano\Factory;
 
 use Closure;
+use Hyperf\Contract\NormalizerInterface;
+use Hyperf\Di\ClosureDefinitionCollectorInterface;
+use Hyperf\Di\MethodDefinitionCollectorInterface;
 use Hyperf\Utils\Str;
 use Psr\Container\ContainerInterface;
-use Hyperf\Contract\NormalizerInterface;
-use Hyperf\Di\MethodDefinitionCollectorInterface;
-use Hyperf\Di\ClosureDefinitionCollectorInterface;
 
 class ParameterParser
 {

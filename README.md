@@ -266,3 +266,31 @@ $app->get('/', function(){
 
 $app->run();
 ```
+
+### How to use Swow
+
+- require swow engine
+
+```shell
+composer require "hyperf/engine-swow:^2.0"
+```
+
+- run the code
+
+```php
+<?php
+
+declare(strict_types=1);
+
+use Hyperf\Nano\Factory\AppFactory;
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+$app = AppFactory::createSwow();
+
+$app->get('/', function () {
+    return 'Hello World';
+});
+
+$app->run();
+```
