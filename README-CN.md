@@ -428,6 +428,14 @@ $ php index.php server:watch
 
 ### 如何使用 Swow
 
+- 安装兼容层
+
+```shell
+composer require "hyperf/engine-swow:^2.0"
+```
+
+- 运行代码
+
 ```php
 <?php
 

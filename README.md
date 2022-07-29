@@ -269,6 +269,14 @@ $app->run();
 
 ### How to use Swow
 
+- require swow engine
+
+```shell
+composer require "hyperf/engine-swow:^2.0"
+```
+
+- run the code
+
 ```php
 <?php
 
