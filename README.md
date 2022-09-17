@@ -36,7 +36,7 @@ use Hyperf\Nano\Factory\AppFactory;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-$app = AppFactory::create('0.0.0.0', 9051);
+$app = AppFactory::create('0.0.0.0', 9501);
 
 $app->get('/', function () {
 
@@ -251,7 +251,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 $app = AppFactory::create();
 
 $app->config([
-    'db.default' => [
+    'databases.default' => [
         'host' => env('DB_HOST', 'localhost'),
         'port' => env('DB_PORT', 3306),
         'database' => env('DB_DATABASE', 'hyperf'),
@@ -265,6 +265,17 @@ $app->get('/', function(){
 });
 
 $app->run();
+```
+
+### Generating Migrations & Models
+All generation commands from HyperF are available to you. Make sure to first setup database config as shown above. 
+
+```bash
+php index.php gen:model MyModelName
+```
+
+```bash
+php index.php gen:migration create_users table
 ```
 
 ### How to use Swow
