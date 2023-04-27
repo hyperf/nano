@@ -11,6 +11,7 @@ declare(strict_types=1);
  */
 namespace Hyperf\Nano;
 
+use Exception;
 use Hyperf\Command\Command;
 use Hyperf\Contract\StdoutLoggerInterface;
 use Hyperf\DB\DB;
@@ -83,7 +84,7 @@ $app->addMiddleware(function ($request, $handler) {
 });
 
 $app->get('/exception', function () {
-    throw new \Exception();
+    throw new Exception();
 });
 
 $app->addExceptionHandler(function ($throwable, $response) {

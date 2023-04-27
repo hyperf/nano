@@ -11,6 +11,7 @@ declare(strict_types=1);
  */
 namespace Hyperf\Nano;
 
+use Closure;
 use Hyperf\Command\Command;
 use Hyperf\Contract\ConfigInterface;
 use Hyperf\Contract\ContainerInterface;
@@ -57,7 +58,7 @@ class App
     public function __call($name, $arguments)
     {
         $router = $this->dispatcherFactory->getRouter($this->serverName);
-        if ($arguments[1] instanceof \Closure) {
+        if ($arguments[1] instanceof Closure) {
             $arguments[1] = $arguments[1]->bindTo($this->bound, $this->bound);
         }
         return $router->{$name}(...$arguments);
@@ -100,7 +101,7 @@ class App
             return;
         }
 
-        $middleware = \Closure::fromCallable($middleware);
+        $middleware = Closure::fromCallable($middleware);
         $middlewareFactory = $this->container->get(MiddlewareFactory::class);
         $this->appendConfig(
             'middlewares.' . $this->serverName,
@@ -118,7 +119,7 @@ class App
             return;
         }
 
-        $exceptionHandler = \Closure::fromCallable($exceptionHandler);
+        $exceptionHandler = Closure::fromCallable($exceptionHandler);
         $exceptionHandlerFactory = $this->container->get(ExceptionHandlerFactory::class);
         $handler = $exceptionHandlerFactory->create($exceptionHandler->bindTo($this->bound, $this->bound));
         $handlerId = spl_object_hash($handler);
@@ -144,7 +145,7 @@ class App
             return;
         }
 
-        $listener = \Closure::fromCallable($listener);
+        $listener = Closure::fromCallable($listener);
         $listener = $listener->bindTo($this->bound, $this->bound);
         $provider = $this->container->get(ListenerProviderInterface::class);
         $provider->on($event, $listener, $priority);
@@ -177,7 +178,7 @@ class App
             return $this->container->get($command);
         }
 
-        $command = \Closure::fromCallable($command);
+        $command = Closure::fromCallable($command);
         /** @var CommandFactory $commandFactory */
         $commandFactory = $this->container->get(CommandFactory::class);
         $handler = $commandFactory->create($signature, $command->bindTo($this->bound, $this->bound));
@@ -208,7 +209,7 @@ class App
             return $crontab;
         }
 
-        $callback = \Closure::fromCallable($crontab);
+        $callback = Closure::fromCallable($crontab);
         $callback = $callback->bindTo($this->bound, $this->bound);
         $callbackId = spl_object_hash($callback);
         $this->container->set($callbackId, $callback);
@@ -239,7 +240,7 @@ class App
             return $this->container->get($process);
         }
 
-        $callback = \Closure::fromCallable($process);
+        $callback = Closure::fromCallable($process);
         $callback = $callback->bindTo($this->bound, $this->bound);
         $processFactory = $this->container->get(ProcessFactory::class);
 
@@ -264,7 +265,7 @@ class App
         if (isset($options['middleware'])) {
             $this->convertClosureToMiddleware($options['middleware']);
         }
-        if ($handler instanceof \Closure) {
+        if ($handler instanceof Closure) {
             $handler = $handler->bindTo($this->bound, $this->bound);
         }
         $router->addRoute($httpMethod, $route, $handler, $options);
@@ -322,7 +323,7 @@ class App
     {
         $middlewareFactory = $this->container->get(MiddlewareFactory::class);
         foreach ($middlewares as &$middleware) {
-            if ($middleware instanceof \Closure) {
+            if ($middleware instanceof Closure) {
                 $middleware = $middleware->bindTo($this->bound, $this->bound);
                 $middleware = $middlewareFactory->create($middleware);
             }

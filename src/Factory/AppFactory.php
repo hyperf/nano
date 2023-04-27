@@ -29,6 +29,7 @@ use Hyperf\Nano\BoundInterface;
 use Hyperf\Nano\ContainerProxy;
 use Hyperf\Nano\Preset\Preset;
 use Psr\Log\LogLevel;
+use ReflectionClass;
 
 class AppFactory
 {
@@ -138,7 +139,7 @@ class AppFactory
         ini_set('display_errors', 'on');
         ini_set('display_startup_errors', 'on');
         error_reporting(E_ALL);
-        $reflection = new \ReflectionClass(\Composer\Autoload\ClassLoader::class);
+        $reflection = new ReflectionClass(\Composer\Autoload\ClassLoader::class);
         $projectRootPath = dirname($reflection->getFileName(), 3);
         ! defined('BASE_PATH') && define('BASE_PATH', $projectRootPath);
         ! defined('SWOOLE_HOOK_FLAGS') && define('SWOOLE_HOOK_FLAGS', $hookFlags);

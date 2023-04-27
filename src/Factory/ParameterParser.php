@@ -11,10 +11,12 @@ declare(strict_types=1);
  */
 namespace Hyperf\Nano\Factory;
 
+use Closure;
 use Hyperf\Contract\NormalizerInterface;
 use Hyperf\Di\ClosureDefinitionCollectorInterface;
 use Hyperf\Di\MethodDefinitionCollectorInterface;
 use Hyperf\Stringable\Str;
+use InvalidArgumentException;
 use Psr\Container\ContainerInterface;
 
 class ParameterParser
@@ -39,9 +41,9 @@ class ParameterParser
     }
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
-    public function parseClosureParameters(\Closure $closure, array $arguments): array
+    public function parseClosureParameters(Closure $closure, array $arguments): array
     {
         if (! $this->closureDefinitionCollector) {
             return [];
@@ -63,7 +65,7 @@ class ParameterParser
     }
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     private function getInjections(array $definitions, string $callableName, array $arguments): array
     {
@@ -79,7 +81,7 @@ class ParameterParser
                 } elseif ($definition->allowsNull()) {
                     $injections[] = null;
                 } else {
-                    throw new \InvalidArgumentException("Parameter '{$definition->getMeta('name')}' "
+                    throw new InvalidArgumentException("Parameter '{$definition->getMeta('name')}' "
                         . "of {$callableName} should not be null");
                 }
             } else {
