@@ -11,21 +11,24 @@ declare(strict_types=1);
  */
 namespace Hyperf\Nano\Factory;
 
+use Closure;
 use Hyperf\ExceptionHandler\ExceptionHandler;
 use Psr\Http\Message\ResponseInterface;
 use Throwable;
 
+use function Hyperf\Support\call;
+
 class ExceptionHandlerFactory
 {
-    public function create(\Closure $closure): ExceptionHandler
+    public function create(Closure $closure): ExceptionHandler
     {
         return new class($closure) extends ExceptionHandler {
             /**
-             * @var \Closure
+             * @var Closure
              */
             private $closure;
 
-            public function __construct(\Closure $closure)
+            public function __construct(Closure $closure)
             {
                 $this->closure = $closure;
             }

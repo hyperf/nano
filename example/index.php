@@ -11,12 +11,15 @@ declare(strict_types=1);
  */
 namespace Hyperf\Nano;
 
+use Exception;
 use Hyperf\Command\Command;
 use Hyperf\Contract\StdoutLoggerInterface;
 use Hyperf\DB\DB;
 use Hyperf\Framework\Event\BootApplication;
 use Hyperf\HttpMessage\Stream\SwooleStream;
 use Hyperf\Nano\Factory\AppFactory;
+
+use function Hyperf\Support\env;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -83,7 +86,7 @@ $app->addMiddleware(function ($request, $handler) {
 });
 
 $app->get('/exception', function () {
-    throw new \Exception();
+    throw new Exception();
 });
 
 $app->addExceptionHandler(function ($throwable, $response) {

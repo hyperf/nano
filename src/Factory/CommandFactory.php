@@ -11,12 +11,13 @@ declare(strict_types=1);
  */
 namespace Hyperf\Nano\Factory;
 
+use Closure;
 use Hyperf\Command\Command;
-use Hyperf\Utils\ApplicationContext;
+use Hyperf\Context\ApplicationContext;
 
 class CommandFactory
 {
-    public function create(string $signature, \Closure $closure): Command
+    public function create(string $signature, Closure $closure): Command
     {
         $container = ApplicationContext::getContainer();
 

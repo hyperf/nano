@@ -11,8 +11,11 @@ declare(strict_types=1);
  */
 namespace Hyperf\Nano\Factory;
 
+use Closure;
 use Hyperf\Process\AbstractProcess;
 use Psr\Container\ContainerInterface;
+
+use function Hyperf\Support\call;
 
 class ClosureProcess extends AbstractProcess
 {
@@ -21,7 +24,7 @@ class ClosureProcess extends AbstractProcess
      */
     private $enable;
 
-    public function __construct(ContainerInterface $container, private \Closure $closure)
+    public function __construct(ContainerInterface $container, private Closure $closure)
     {
         parent::__construct($container);
     }

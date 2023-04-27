@@ -11,14 +11,17 @@ declare(strict_types=1);
  */
 namespace Hyperf\Nano\Factory;
 
+use Closure;
 use Hyperf\Command\Command;
 use Psr\Container\ContainerInterface;
+
+use function Hyperf\Support\call;
 
 class ClosureCommand extends Command
 {
     protected ParameterParser $parameterParser;
 
-    public function __construct(protected ContainerInterface $container, protected ?string $signature, private \Closure $closure)
+    public function __construct(protected ContainerInterface $container, protected ?string $signature, private Closure $closure)
     {
         $this->parameterParser = $container->get(ParameterParser::class);
         parent::__construct();

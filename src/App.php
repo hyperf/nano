@@ -28,6 +28,9 @@ use Hyperf\Process\AbstractProcess;
 use Psr\EventDispatcher\ListenerProviderInterface;
 use Psr\Http\Server\MiddlewareInterface;
 
+use function Hyperf\Support\call;
+use function Hyperf\Tappable\tap;
+
 /**
  * @method get($route, $handler, array $options = [])
  * @method post($route, $handler, array $options = [])
@@ -58,7 +61,7 @@ class App
     public function __call($name, $arguments)
     {
         $router = $this->dispatcherFactory->getRouter($this->serverName);
-        if ($arguments[1] instanceof \Closure) {
+        if ($arguments[1] instanceof Closure) {
             $arguments[1] = $arguments[1]->bindTo($this->bound, $this->bound);
         }
         return $router->{$name}(...$arguments);
@@ -209,7 +212,7 @@ class App
             return $crontab;
         }
 
-        $callback = \Closure::fromCallable($crontab);
+        $callback = Closure::fromCallable($crontab);
         $callback = $callback->bindTo($this->bound, $this->bound);
         $callbackId = spl_object_hash($callback);
         $this->container->set($callbackId, $callback);
@@ -240,7 +243,7 @@ class App
             return $this->container->get($process);
         }
 
-        $callback = \Closure::fromCallable($process);
+        $callback = Closure::fromCallable($process);
         $callback = $callback->bindTo($this->bound, $this->bound);
         $processFactory = $this->container->get(ProcessFactory::class);
 
@@ -265,7 +268,7 @@ class App
         if (isset($options['middleware'])) {
             $this->convertClosureToMiddleware($options['middleware']);
         }
-        if ($handler instanceof \Closure) {
+        if ($handler instanceof Closure) {
             $handler = $handler->bindTo($this->bound, $this->bound);
         }
         $router->addRoute($httpMethod, $route, $handler, $options);
@@ -323,7 +326,7 @@ class App
     {
         $middlewareFactory = $this->container->get(MiddlewareFactory::class);
         foreach ($middlewares as &$middleware) {
-            if ($middleware instanceof \Closure) {
+            if ($middleware instanceof Closure) {
                 $middleware = $middleware->bindTo($this->bound, $this->bound);
                 $middleware = $middlewareFactory->create($middleware);
             }

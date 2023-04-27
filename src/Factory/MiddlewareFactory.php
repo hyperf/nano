@@ -11,22 +11,25 @@ declare(strict_types=1);
  */
 namespace Hyperf\Nano\Factory;
 
+use Closure;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
+use function Hyperf\Support\call;
+
 class MiddlewareFactory
 {
-    public function create(\Closure $closure): MiddlewareInterface
+    public function create(Closure $closure): MiddlewareInterface
     {
         return new class($closure) implements MiddlewareInterface {
             /**
-             * @var \Closure
+             * @var Closure
              */
             private $closure;
 
-            public function __construct(\Closure $closure)
+            public function __construct(Closure $closure)
             {
                 $this->closure = $closure;
             }

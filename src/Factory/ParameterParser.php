@@ -15,7 +15,8 @@ use Closure;
 use Hyperf\Contract\NormalizerInterface;
 use Hyperf\Di\ClosureDefinitionCollectorInterface;
 use Hyperf\Di\MethodDefinitionCollectorInterface;
-use Hyperf\Utils\Str;
+use Hyperf\Stringable\Str;
+use InvalidArgumentException;
 use Psr\Container\ContainerInterface;
 
 class ParameterParser
@@ -40,7 +41,7 @@ class ParameterParser
     }
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function parseClosureParameters(Closure $closure, array $arguments): array
     {
@@ -64,7 +65,7 @@ class ParameterParser
     }
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     private function getInjections(array $definitions, string $callableName, array $arguments): array
     {
@@ -80,7 +81,7 @@ class ParameterParser
                 } elseif ($definition->allowsNull()) {
                     $injections[] = null;
                 } else {
-                    throw new \InvalidArgumentException("Parameter '{$definition->getMeta('name')}' "
+                    throw new InvalidArgumentException("Parameter '{$definition->getMeta('name')}' "
                         . "of {$callableName} should not be null");
                 }
             } else {
