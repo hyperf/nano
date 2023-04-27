@@ -7,7 +7,7 @@ env:
   DAEMONIZE: '(true)'
 jobs:
   ci:
-    name: Test PHP${{ matrix.php-version }} on Swoole${{ matrix.swoole-version }}
+    name: Test PHP ${{ matrix.php-version }} on Swoole ${{ matrix.swoole-version }}
     runs-on: "${{ matrix.os }}"
     env:
       SWOOLE_VERSION: ${{ matrix.swoole-version }}
