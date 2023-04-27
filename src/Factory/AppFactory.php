@@ -31,6 +31,8 @@ use Hyperf\Nano\Preset\Preset;
 use Psr\Log\LogLevel;
 use ReflectionClass;
 
+use function Hyperf\Support\env;
+
 class AppFactory
 {
     /**

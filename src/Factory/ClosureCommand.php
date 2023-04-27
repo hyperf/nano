@@ -15,6 +15,8 @@ use Closure;
 use Hyperf\Command\Command;
 use Psr\Container\ContainerInterface;
 
+use function Hyperf\Support\call;
+
 class ClosureCommand extends Command
 {
     protected ParameterParser $parameterParser;

@@ -16,6 +16,8 @@ use Hyperf\ExceptionHandler\ExceptionHandler;
 use Psr\Http\Message\ResponseInterface;
 use Throwable;
 
+use function Hyperf\Support\call;
+
 class ExceptionHandlerFactory
 {
     public function create(Closure $closure): ExceptionHandler
