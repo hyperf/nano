@@ -17,6 +17,8 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
+use function Hyperf\Support\call;
+
 class MiddlewareFactory
 {
     public function create(Closure $closure): MiddlewareInterface
