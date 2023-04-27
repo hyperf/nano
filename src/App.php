@@ -38,20 +38,11 @@ use Psr\Http\Server\MiddlewareInterface;
  */
 class App
 {
-    /**
-     * @var ConfigInterface
-     */
-    protected $config;
+    protected ConfigInterface $config;
 
-    /**
-     * @var DispatcherFactory
-     */
-    protected $dispatcherFactory;
+    protected DispatcherFactory $dispatcherFactory;
 
-    /**
-     * @var BoundInterface
-     */
-    protected $bound;
+    protected BoundInterface $bound;
 
     private string $serverName = 'http';
 
@@ -76,7 +67,7 @@ class App
     /**
      * Run the application.
      */
-    public function run()
+    public function run(): void
     {
         $application = $this->container->get(\Hyperf\Contract\ApplicationInterface::class);
         $application->run();
@@ -85,7 +76,7 @@ class App
     /**
      * Config the application using arrays.
      */
-    public function config(array $configs, int $flag = Constant::CONFIG_MERGE)
+    public function config(array $configs, int $flag = Constant::CONFIG_MERGE): void
     {
         foreach ($configs as $key => $value) {
             $this->addConfig($key, $value, $flag);
@@ -103,7 +94,7 @@ class App
     /**
      * Add a middleware globally.
      */
-    public function addMiddleware(callable|MiddlewareInterface|string $middleware)
+    public function addMiddleware(callable|MiddlewareInterface|string $middleware): void
     {
         if ($middleware instanceof MiddlewareInterface || is_string($middleware)) {
             $this->appendConfig('middlewares.' . $this->serverName, $middleware);
@@ -121,7 +112,7 @@ class App
     /**
      * Add an exception handler globally.
      */
-    public function addExceptionHandler(callable|string $exceptionHandler)
+    public function addExceptionHandler(callable|string $exceptionHandler): void
     {
         if (is_string($exceptionHandler)) {
             $this->appendConfig('exceptions.handler.' . $this->serverName, $exceptionHandler);
@@ -143,7 +134,7 @@ class App
      * Add an listener globally.
      * @param null|callable|string $listener
      */
-    public function addListener(string $event, $listener = null, int $priority = 1)
+    public function addListener(string $event, $listener = null, int $priority = 1): void
     {
         if ($listener === null) {
             $listener = $event;
@@ -241,9 +232,8 @@ class App
 
     /**
      * Add a new process.
-     * @return AbstractProcess|ClosureProcess
      */
-    public function addProcess(callable|string $process)
+    public function addProcess(callable|string $process): AbstractProcess|ClosureProcess
     {
         if (is_string($process)) {
             $this->appendConfig('processes', $process);
@@ -284,21 +274,21 @@ class App
     /**
      * Add a server.
      */
-    public function addServer(string $serverName, callable $callback)
+    public function addServer(string $serverName, callable $callback): void
     {
         $this->serverName = $serverName;
         call($callback, [$this]);
         $this->serverName = 'http';
     }
 
-    private function appendConfig(string $key, $configValues)
+    private function appendConfig(string $key, $configValues): void
     {
         $configs = $this->config->get($key, []);
         array_push($configs, $configValues);
         $this->config->set($key, $configs);
     }
 
-    private function ensureConfigHasValue(string $key, $configValues)
+    private function ensureConfigHasValue(string $key, $configValues): void
     {
         $config = $this->config->get($key, []);
         if (! is_array($config)) {
@@ -313,7 +303,7 @@ class App
         $this->config->set($key, $config);
     }
 
-    private function addConfig(string $key, $configValues, $flag)
+    private function addConfig(string $key, $configValues, $flag): void
     {
         $config = $this->config->get($key);
 
@@ -329,7 +319,7 @@ class App
         }
     }
 
-    private function convertClosureToMiddleware(array &$middlewares)
+    private function convertClosureToMiddleware(array &$middlewares): void
     {
         $middlewareFactory = $this->container->get(MiddlewareFactory::class);
         foreach ($middlewares as &$middleware) {

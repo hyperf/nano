@@ -112,7 +112,7 @@ class AppFactory
             'log_level' => [
                 LogLevel::ALERT,
                 LogLevel::CRITICAL,
-                LogLevel::DEBUG,
+                env('APP_DEBUG', false) ? LogLevel::DEBUG : null,
                 LogLevel::EMERGENCY,
                 LogLevel::ERROR,
                 LogLevel::INFO,
@@ -133,7 +133,7 @@ class AppFactory
     /**
      * Setup flags, ini settings and constants.
      */
-    protected static function prepareFlags(int $hookFlags = SWOOLE_HOOK_ALL)
+    protected static function prepareFlags(int $hookFlags = SWOOLE_HOOK_ALL): void
     {
         ini_set('display_errors', 'on');
         ini_set('display_startup_errors', 'on');
