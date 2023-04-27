@@ -22,6 +22,10 @@ jobs:
             swoole-version: 'v4.6.7'
           - php-version: '8.1'
             swoole-version: 'v4.7.1'
+          - php-version: '8.2'
+            swoole-version: 'v4.6.7'
+          - php-version: '8.2'
+            swoole-version: 'v4.7.1'
       max-parallel: 16
     steps:
       - name: Checkout
