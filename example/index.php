@@ -19,6 +19,8 @@ use Hyperf\Framework\Event\BootApplication;
 use Hyperf\HttpMessage\Stream\SwooleStream;
 use Hyperf\Nano\Factory\AppFactory;
 
+use function Hyperf\Support\env;
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
 interface FooInterface

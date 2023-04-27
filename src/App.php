@@ -28,6 +28,9 @@ use Hyperf\Process\AbstractProcess;
 use Psr\EventDispatcher\ListenerProviderInterface;
 use Psr\Http\Server\MiddlewareInterface;
 
+use function Hyperf\Support\call;
+use function Hyperf\Tappable\tap;
+
 /**
  * @method get($route, $handler, array $options = [])
  * @method post($route, $handler, array $options = [])

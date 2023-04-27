@@ -15,6 +15,8 @@ use Closure;
 use Hyperf\Process\AbstractProcess;
 use Psr\Container\ContainerInterface;
 
+use function Hyperf\Support\call;
+
 class ClosureProcess extends AbstractProcess
 {
     /**

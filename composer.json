@@ -28,7 +28,8 @@
         "hyperf/framework": "^3.0.0",
         "hyperf/http-server": "^3.0.0",
         "hyperf/stringable": "^3.0.0",
-        "hyperf/support": "^3.0.0"
+        "hyperf/support": "^3.0.0",
+        "hyperf/tappable": "^3.0.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.0",
