@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace Hyperf\Nano\Factory;
 
 use Hyperf\Command\Command;
-use Hyperf\Utils\ApplicationContext;
+use Hyperf\Context\ApplicationContext;
 
 class CommandFactory
 {

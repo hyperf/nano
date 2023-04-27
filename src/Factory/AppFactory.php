@@ -16,6 +16,7 @@ use Dotenv\Repository\Adapter\PutenvAdapter;
 use Dotenv\Repository\RepositoryBuilder;
 use Hyperf\Config\Config;
 use Hyperf\Config\ProviderConfig;
+use Hyperf\Context\ApplicationContext;
 use Hyperf\Contract\ConfigInterface;
 use Hyperf\Contract\ContainerInterface;
 use Hyperf\Contract\StdoutLoggerInterface;
@@ -27,7 +28,6 @@ use Hyperf\Nano\App;
 use Hyperf\Nano\BoundInterface;
 use Hyperf\Nano\ContainerProxy;
 use Hyperf\Nano\Preset\Preset;
-use Hyperf\Utils\ApplicationContext;
 use Psr\Log\LogLevel;
 
 class AppFactory

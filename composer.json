@@ -22,10 +22,11 @@
         "php": ">=8.0",
         "hyperf/command": "^3.0.0",
         "hyperf/config": "^3.0.0",
+        "hyperf/context": "^3.0.16",
         "hyperf/di": "^3.0.0",
         "hyperf/framework": "^3.0.0",
         "hyperf/http-server": "^3.0.0",
-        "hyperf/utils": "^3.0.0"
+        "hyperf/stringable": "^3.0.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.0",

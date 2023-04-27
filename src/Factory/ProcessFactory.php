@@ -11,7 +11,7 @@ declare(strict_types=1);
  */
 namespace Hyperf\Nano\Factory;
 
-use Hyperf\Utils\ApplicationContext;
+use Hyperf\Context\ApplicationContext;
 
 class ProcessFactory
 {

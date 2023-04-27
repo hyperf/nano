@@ -11,11 +11,10 @@ declare(strict_types=1);
  */
 namespace Hyperf\Nano\Factory;
 
-use Closure;
 use Hyperf\Contract\NormalizerInterface;
 use Hyperf\Di\ClosureDefinitionCollectorInterface;
 use Hyperf\Di\MethodDefinitionCollectorInterface;
-use Hyperf\Utils\Str;
+use Hyperf\Stringable\Str;
 use Psr\Container\ContainerInterface;
 
 class ParameterParser
@@ -42,7 +41,7 @@ class ParameterParser
     /**
      * @throws \InvalidArgumentException
      */
-    public function parseClosureParameters(Closure $closure, array $arguments): array
+    public function parseClosureParameters(\Closure $closure, array $arguments): array
     {
         if (! $this->closureDefinitionCollector) {
             return [];
