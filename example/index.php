@@ -21,9 +21,6 @@ use Hyperf\Nano\Factory\AppFactory;
 
 use function Hyperf\Support\env;
 
-// fix for swow
-defined('SWOOLE_HOOK_ALL') or define('SWOOLE_HOOK_ALL', 2147481599);
-
 require_once __DIR__ . '/../vendor/autoload.php';
 
 interface FooInterface
