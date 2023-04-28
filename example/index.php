@@ -36,15 +36,9 @@ class Foo implements FooInterface
     }
 }
 
-if (env('ENGINE') == 'swow') {
-    $app = AppFactory::createSwow('0.0.0.0', 9501, [
-        FooInterface::class => Foo::class,
-    ]);
-} else {
-    $app = AppFactory::createBase('0.0.0.0', 9501, [
-        FooInterface::class => Foo::class,
-    ]);
-}
+$app = AppFactory::createBase('0.0.0.0', 9501, [
+    FooInterface::class => Foo::class,
+]);
 
 $app->config([
     'server' => [
