@@ -16,7 +16,12 @@ jobs:
         os: [ ubuntu-latest ]
         php: [ '8.0', '8.1', '8.2' ]
         engine: [ 'swoole' ]
-        swoole: [ 'v4.8.11', 'v5.0.3', 'master' ]
+        swoole: [ 'v4.6.7', 'v4.7.1', 'v4.8.11', 'master' ]
+        exclude:
+          - php: '8.1'
+            swoole: 'v4.6.7'
+          - php: '8.1'
+            swoole: 'v4.7.1'
       max-parallel: 16
     steps:
       - name: Checkout
@@ -26,29 +31,20 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           tools: phpize
-          extensions: redis, pdo, pdo_mysql, bcmath
           ini-values: opcache.enable_cli=0, swoole.use_shortname='Off'
           coverage: none
       - name: Setup Swoole
         if: ${{ matrix.engine == 'swoole' }}
         run: |
-          sudo apt-get clean
           sudo apt-get update
-          sudo apt-get upgrade -f
-          sudo apt-get install
-          sudo apt-get install libcurl4-openssl-dev libc-ares-dev libpq-dev
+          sudo apt-get install libcurl4-openssl-dev
           wget https://github.com/swoole/swoole-src/archive/${SWOOLE_VERSION}.tar.gz -O swoole.tar.gz
           mkdir -p swoole
           tar -xf swoole.tar.gz -C swoole --strip-components=1
           rm swoole.tar.gz
           cd swoole
           phpize
-          if [ _${{ matrix.swoole }} = '_v5.0.3' ] || [ _${{ matrix.swoole }} = '_master' ]
-          then
-            ./configure --enable-openssl --enable-swoole-curl --enable-cares --enable-swoole-pgsql --enable-brotli
-          else
-            ./configure --enable-openssl --enable-http2 --enable-swoole-curl --enable-swoole-json
-          fi
+          ./configure --enable-openssl --enable-http2 --enable-swoole-curl --enable-swoole-json
           make -j$(nproc)
           sudo make install
           sudo sh -c "echo extension=swoole > /etc/php/${{ matrix.php }}/cli/conf.d/swoole.ini"
