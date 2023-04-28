@@ -84,6 +84,7 @@ $app->run();
 ```
 
 ### DI 容器
+
 ```php
 <?php
 use Hyperf\Nano\ContainerProxy;
@@ -282,13 +283,13 @@ $app = AppFactory::create();
 $app->config([
     'cache.default' => [
         'driver' => Hyperf\Cache\Driver\RedisDriver::class,
-        'packer' => Hyperf\Utils\Packer\PhpSerializerPacker::class,
+        'packer' => Hyperf\Codec\Packer\PhpSerializerPacker::class,
         'prefix' => 'c:',
     ],
 ]);
 
 $app->get('/{key}', function(Psr\SimpleCache\CacheInterface $cache, $key){
-	return $cache->get($key, 'default');
+    return $cache->get($key, 'default');
 });
 
 $app->run();

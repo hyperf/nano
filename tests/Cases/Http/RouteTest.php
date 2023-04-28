@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace HyperfTest\Nano\Cases\Http;
 
 use GuzzleHttp\RequestOptions;
-use Hyperf\Utils\Codec\Json;
+use Hyperf\Codec\Json;
 use HyperfTest\Nano\HttpTestCase;
 
 /**

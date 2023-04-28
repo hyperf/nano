@@ -84,6 +84,7 @@ $app->run();
 ```
 
 ### DI 容器
+
 ```php
 <?php
 use Hyperf\Nano\ContainerProxy;
@@ -108,9 +109,11 @@ $app->get('/', function () {
 
 $app->run();
 ```
+
 > 所有 $app 管理的閉包回調中，$this 都被綁定到了 `Hyperf\Nano\ContainerProxy` 上。
 
 ### 中間件
+
 ```php
 <?php
 use Hyperf\Nano\Factory\AppFactory;
