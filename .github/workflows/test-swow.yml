@@ -52,7 +52,7 @@ jobs:
           composer update -o --no-scripts
       - name: Run Server
         run: |
-          ENGINE=swow php example/index.php start
+          ENGINE=swow php example/index.php start & disown
           sleep 5
       - name: Run Analyse
         run: |
