@@ -3,6 +3,7 @@ name: PHPUnit-Swow
 on: [ push, pull_request ]
 
 env:
+  ENGINE: 'swow'
   DAEMONIZE: '(true)'
 jobs:
   ci:
@@ -51,7 +52,7 @@ jobs:
           composer update -o --no-scripts
       - name: Run Server
         run: |
-          php example/swow.php start
+          ENGINE=swow php example/index.php start
           sleep 5
       - name: Run Analyse
         run: |
