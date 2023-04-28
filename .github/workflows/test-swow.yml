@@ -46,7 +46,9 @@ jobs:
       - name: Setup MySQL
         run: export TRAVIS_BUILD_DIR=$(pwd) && bash ./.travis/setup.mysql.sh
       - name: Setup Packages
-        run: composer update -o --no-scripts
+        run: |
+          composer require hyperf/engine-swow
+          composer update -o --no-scripts
       - name: Run Server
         run: |
           php example/index.php start
