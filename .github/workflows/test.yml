@@ -7,16 +7,16 @@ env:
   DAEMONIZE: '(true)'
 jobs:
   ci:
-    name: Test PHP ${{ matrix.php-version }} on Swoole ${{ matrix.swoole-version }}
+    name: Test PHP ${{ matrix.php }} on Swoole ${{ matrix.swoole }}
     runs-on: "${{ matrix.os }}"
     env:
-      SWOOLE_VERSION: ${{ matrix.swoole-version }}
+      SWOOLE_VERSION: ${{ matrix.swoole }}
     strategy:
       matrix:
         os: [ ubuntu-latest ]
-        php-version: [ '8.0', '8.1', '8.2' ]
+        php: [ '8.0', '8.1', '8.2' ]
         engine: [ 'swoole' ]
-        swoole-version: [ 'v4.8.11', 'v5.0.3', 'master' ]
+        swoole: [ 'v4.8.11', 'v5.0.3', 'master' ]
       max-parallel: 16
     steps:
       - name: Checkout
@@ -24,7 +24,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php-version }}
+          php-version: ${{ matrix.php }}
           tools: phpize
           extensions: redis, pdo, pdo_mysql, bcmath
           ini-values: opcache.enable_cli=0, swoole.use_shortname='Off'
@@ -43,7 +43,7 @@ jobs:
           rm swoole.tar.gz
           cd swoole
           phpize
-          if [ _${{ matrix.swoole-version }} = '_v5.0.3' ] || [ _${{ matrix.swoole-version }} = '_master' ]
+          if [ _${{ matrix.swoole }} = '_v5.0.3' ] || [ _${{ matrix.swoole }} = '_master' ]
           then
             ./configure --enable-openssl --enable-swoole-curl --enable-cares --enable-swoole-pgsql --enable-brotli
           else
@@ -51,8 +51,8 @@ jobs:
           fi
           make -j$(nproc)
           sudo make install
-          sudo sh -c "echo extension=swoole > /etc/php/${{ matrix.php-version }}/cli/conf.d/swoole.ini"
-          sudo sh -c "echo swoole.use_shortname='Off' >> /etc/php/${{ matrix.php-version }}/cli/conf.d/swoole.ini"
+          sudo sh -c "echo extension=swoole > /etc/php/${{ matrix.php }}/cli/conf.d/swoole.ini"
+          sudo sh -c "echo swoole.use_shortname='Off' >> /etc/php/${{ matrix.php }}/cli/conf.d/swoole.ini"
           php --ri swoole
       - name: Setup Swow
         if: ${{ matrix.engine == 'swow' }}
@@ -67,7 +67,7 @@ jobs:
           ./configure --enable-debug
           make -j "$(nproc)"
           sudo make install
-          sudo sh -c "echo extension=swow > /etc/php/${{ matrix.php-version }}/cli/conf.d/swow.ini"
+          sudo sh -c "echo extension=swow > /etc/php/${{ matrix.php }}/cli/conf.d/swow.ini"
           php --ri swow
       - name: Setup Services
         run: docker run --name mysql -p 3306:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=true -d mysql:5.7 --bind-address=0.0.0.0 --default-authentication-plugin=mysql_native_password
