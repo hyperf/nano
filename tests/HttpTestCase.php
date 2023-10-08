@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/nano/blob/master/LICENSE
  */
+
 namespace HyperfTest\Nano;
 
 use GuzzleHttp\Client;
