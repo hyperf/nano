@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/nano/blob/master/LICENSE
  */
+
 namespace Hyperf\Nano\Factory;
 
 use Closure;
@@ -22,7 +23,7 @@ class ClosureProcess extends AbstractProcess
     /**
      * @var bool|callable
      */
-    private $enable;
+    private $enable = true;
 
     public function __construct(ContainerInterface $container, private Closure $closure)
     {

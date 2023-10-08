@@ -214,9 +214,13 @@ $app = AppFactory::create();
 $app->addProcess(function(){
     while (true) {
         sleep(1);
-        $this->get(StdoutLoggerInterface::class)->info('Processing...');
+        $this->container->get(StdoutLoggerInterface::class)->info('Processing...');
     }
 })->setName('nano-process')->setNums(1);
+
+$app->addProcess(function(){
+    $this->container->get(StdoutLoggerInterface::class)->info('Determine whether the process needs to be started based on env...');
+})->setName('nano-process')->setNums(1)->setEnable(\Hyperf\Support\env('PROCESS_ENABLE', true))));
 
 $app->run();
 ```
